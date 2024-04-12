@@ -9,20 +9,20 @@ Rubric on time (5)
 Remember to get it checked out by a TA!
 
 Languages/Frameworks used (30 points)
-10 React
-10 MongoDB
-10 Express
+10 React  
+10 MongoDB  
+10 Express  
 
 Functionality (50 points)
-10 Users can register, login, and logout
-10 Logged in users can create, edit and delete their polls
-10 Logged in users can see and vote on polls, unlogged in users can only see polls
-10 Database contains Users, Polls, and Votes with the necessary columns and column types to maintain the above functionality
-10 charts will be displayed with the results after voting
+10 Users can register, login, and logout  
+10 Logged in users can create, edit and delete their polls  
+10 Logged in users can see and vote on polls, unlogged in users can only see polls  
+10 Database contains Users, Polls, and Votes with the necessary columns and column types to maintain the above functionality  
+10 charts will be displayed with the results after voting  
 
 
-Best Practice (5 points)
-3 Code is readable and well formatted
-2 All pages pass the html validator
+Best Practice (5 points)  
+3 Code is readable and well formatted  
+2 All pages pass the html validator  
 
-Creative (10 points)
+Creative (10 points)  
