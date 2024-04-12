@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Login from './Login';
 
 function App() {
   const [data, setData] = useState({});
@@ -21,11 +22,9 @@ function App() {
   };
 
   
-    return (
-        <div>
-            <h1>React + Node.js Integration</h1>
-            <p>{data.message}</p>
-        </div>
+    return (<>
+          <Login/>
+        </>
     );
 }
 
