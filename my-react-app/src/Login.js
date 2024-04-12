@@ -1,23 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
-function Login() {  
+function Login() { 
+  const [errorMsg,setErrorMsg]=useState("");
+  const [username,setUsername]=useState("");
+  const [password,setPassword]=useState("");
 
-    const send_to_server = async () => {
-        try {
-          const response = await axios.get('http://localhost:3001/message');
-          setData(response.data);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
+  const loginRequest = async (e) => {
+    e.preventDefault();
+    const data={username: username, password:password}
+    try {
+      const response = await axios.post("http://localhost:3001/loginRequest",data);
+      if(response.success){
+        console.log("success: "+response.user_id);
+        setUsername("");
+        setPassword("");
+      }else{
+        setErrorMsg("failure");
+        console.log("failure");
+      }
+    } catch (error) {
+      console.error('Login Error: ', error);
+    }
+  };
 
-    return (
-        <form id="login" action='send_to_server'>
-            <input type="text" id="username" placeholder='Username'></input>
-            <input type='password' id='password' placeholder='Password'></input>
-            <input type='submit' id='login_btn'></input>
-        </form>
-    );
+  return (<>
+      <form id="login" onSubmit={loginRequest}>
+        <input type="text" value={username} onChange={(e)=>{setUsername(e.target.value)}} id="username" placeholder='Username'/>
+        <input type='password' value={password} onChange={(e)=>{setPassword(e.target.value)}} id='password' placeholder='Password'/>
+        <button type="submit" id='login_btn'>Login</button>
+      </form>
+      <p id="error">{errorMsg}</p>
+    </>
+  );
 }
 
 export default Login;

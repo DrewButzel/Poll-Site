@@ -15,6 +15,10 @@ app.get('/message', (req, res) => {
   const data = { message: 'Hello from Node.js backend!' };
   res.json(data);
 });
+app.post("/loginRequest",(req, res) => {
+  console.log("data received u: "+req.username+"p: "+req.password);
+  res.json({success: true,user_id:1});
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

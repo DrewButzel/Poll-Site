@@ -22,10 +22,11 @@ function App() {
   };
 
   
-    return (<>
-          <Login/>
-        </>
-    );
+  return (<>
+        <p>{data}</p>
+        <Login/>
+      </>
+  );
 }
 
 export default App;
