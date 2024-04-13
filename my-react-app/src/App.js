@@ -5,25 +5,24 @@ import axios from 'axios';
 import Login from './Login';
 
 function App() {
-  const [data, setData] = useState({});
+  // const [data, setData] = useState({});
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/message');
-      setData(response.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get('http://localhost:3001/message');
+  //     setData(response.data);
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   }
+  // };
 
   
   return (<>
-        <p>{data}</p>
         <Login/>
       </>
   );
