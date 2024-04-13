@@ -25,6 +25,7 @@ async function getPassword(username){
     const users = database.collection('Users');
     const query = { username: username };
     const user = await users.findOne(query);
+    console.log(user.password);
     if(user&&user.password){
       console.log("pass: "+user.password);
       return user.password;
@@ -59,10 +60,12 @@ app.post("/signupRequest",(req, res) => {
     res.json({success: false,errorMsg:"invalid Email"});
   }
 });
-app.post("/loginRequest",(req, res) => {
+app.post("/loginRequest",async (req, res) => {
   console.log("login data received u: "+req.body.username+" p: "+req.body.password);
-  let pass = getPassword(req.body.username);
+  let pass = await getPassword(req.body.username);
+  console.log(pass+" "+req.body.password);
   if(pass===req.body.password){
+    console.log("Hi");
     res.json({success: true,username:req.body.username});
     return;
   }
