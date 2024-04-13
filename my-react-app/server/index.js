@@ -6,6 +6,7 @@ const cors = require('cors');
 const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://Owen:PollPass@pollproject.tszgsix.mongodb.net/?retryWrites=true&w=majority&appName=PollProject";
 const client = new MongoClient(uri);
+const emailRegex= /^[\w!#$%&'*+\/=?^_`{|}~-]+@([\w\-]+(?:\.[\w\-]+)+)$/;
 
 
 const app = express();
@@ -14,27 +15,32 @@ const PORT = 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
-app.get('/message', (req, res) => {
-  const data = { message: 'Hello from Node.js backend!' };
-  res.json(data);
-});
-
-async function run() {
+async function addUser(username,password,email) {
   try {
     const database = client.db('PollProjDB');
     const users = database.collection('Users');
-    users.insertOne({"poop" : "pooped"});
-    console.log("Pooped");
+    users.insertOne({"username" : username, "password":password,"email":email});
+    console.log(username+" with pass: "+password+" and email: "+email+" added to the DB");
   } finally {
-    // Ensures that the client will close when you finish/error
     await client.close();
   }
 }
-
+app.post("/signupRequest",(req, res) => {
+  console.log("data received u: "+req.body.username+" p: "+req.body.password+" e: "+req.body.email);
+  let validEmail=false;
+  if(match=emailRegex.exec(req.body.email)){
+    validEmail=true;
+  }
+  if(validEmail){
+    addUser(req.body.username,req.body.password,req.body.email);
+    res.json({success: true,username:req.body.username});
+  }else{
+    res.json({success: false,errorMsg:"invalid Email"});
+  }
+});
 app.post("/loginRequest",(req, res) => {
   console.log("data received u: "+req.body.username+" p: "+req.body.password);
-  run().catch(console.dir);
-  res.json({success: true,user_id:1});
+  res.json({success: true,username:req.body.username});
 });
 
 app.listen(PORT, () => {
