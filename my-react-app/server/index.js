@@ -16,9 +16,16 @@ app.use(cors());
 app.use(bodyParser.json());
 
 async function checkDupe(username){
-  
+  try{
+    const database = client.db('PollProjDB');
+    const users = database.collection('Users');
+    const query = { username: username };
+    const user = await users.findOne(query);
+    return user;
+  }finally{
+    await client.close();
+  }
 }
-
 async function getPassword(username){
   try{
     const database = client.db('PollProjDB');
@@ -47,13 +54,18 @@ async function addUser(username,password,email) {
     await client.close();
   }
 }
-app.post("/signupRequest",(req, res) => {
-  console.log("data received u: "+req.body.username+" p: "+req.body.password+" e: "+req.body.email);
+app.post("/signupRequest",async(req, res) => {
+  console.log("sing up data received u: "+req.body.username+" p: "+req.body.password+" e: "+req.body.email);
   let validEmail=false;
   if(match=emailRegex.exec(req.body.email)){
     validEmail=true;
   }
   if(validEmail){
+    let dupe = await checkDupe(req.body.username);
+    if(dupe){
+      res.json({success: true,errorMsg:"account already exists"});
+      return;
+    }
     addUser(req.body.username,req.body.password,req.body.email).catch(console.dir);
     res.json({success: true,username:req.body.username});
   }else{
@@ -65,7 +77,6 @@ app.post("/loginRequest",async (req, res) => {
   let pass = await getPassword(req.body.username);
   console.log(pass+" "+req.body.password);
   if(pass===req.body.password){
-    console.log("Hi");
     res.json({success: true,username:req.body.username});
     return;
   }
