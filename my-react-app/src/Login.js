@@ -11,13 +11,11 @@ function Login() {
     const data={username: username, password:password}
     try {
       const response = await axios.post("http://localhost:3001/loginRequest",data);
-      if(response.success){
-        console.log("success: "+response.user_id);
+      if(response.data.success){
         setUsername("");
         setPassword("");
       }else{
         setErrorMsg("failure");
-        console.log("failure");
       }
     } catch (error) {
       console.error('Login Error: ', error);

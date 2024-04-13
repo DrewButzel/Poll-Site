@@ -16,7 +16,7 @@ app.get('/message', (req, res) => {
   res.json(data);
 });
 app.post("/loginRequest",(req, res) => {
-  console.log("data received u: "+req.username+"p: "+req.password);
+  console.log("data received u: "+req.body.username+" p: "+req.body.password);
   res.json({success: true,user_id:1});
 });
 
