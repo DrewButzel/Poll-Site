@@ -15,6 +15,24 @@ const PORT = 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
+
+async function getPassword(username){
+  try{
+    const database = client.db('PollProjDB');
+    const users = database.collection('Users');
+    const query = { username: username };
+    const user = await users.findOne(query);
+    if(user&&user.password){
+      console.log("pass: "+user.password);
+      return user.password;
+    }else{
+      console.log("no user (or no password w associated user)");
+      return null;
+    }
+  }finally{
+    await client.close();
+  }
+}
 async function addUser(username,password,email) {
   try {
     const database = client.db('PollProjDB');
@@ -39,8 +57,13 @@ app.post("/signupRequest",(req, res) => {
   }
 });
 app.post("/loginRequest",(req, res) => {
-  console.log("data received u: "+req.body.username+" p: "+req.body.password);
-  res.json({success: true,username:req.body.username});
+  console.log("login data received u: "+req.body.username+" p: "+req.body.password);
+  let pass = getPassword(req.body.username);
+  if(pass===req.body.password){
+    res.json({success: true,username:req.body.username});
+    return;
+  }
+  res.json({success: false, errorMsg:"incorrect username or password"});
 });
 
 app.listen(PORT, () => {
