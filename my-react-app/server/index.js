@@ -19,7 +19,7 @@ async function addUser(username,password,email) {
   try {
     const database = client.db('PollProjDB');
     const users = database.collection('Users');
-    users.insertOne({"username" : username, "password":password,"email":email});
+    await users.insertOne({"username" : username, "password":password,"email":email});
     console.log(username+" with pass: "+password+" and email: "+email+" added to the DB");
   } finally {
     await client.close();
@@ -32,7 +32,7 @@ app.post("/signupRequest",(req, res) => {
     validEmail=true;
   }
   if(validEmail){
-    addUser(req.body.username,req.body.password,req.body.email);
+    addUser(req.body.username,req.body.password,req.body.email).catch(console.dir);
     res.json({success: true,username:req.body.username});
   }else{
     res.json({success: false,errorMsg:"invalid Email"});

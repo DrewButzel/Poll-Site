@@ -1,35 +1,22 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
-function Login() { 
+function Login({loginRequest}) { 
   const [username,setUsername]=useState("");
   const [password,setPassword]=useState("");
-  let errorMsg="";
+  const [errorMsg,setErrorMsg]=useState("");
 
-
-  const loginRequest = async (e) => {
+  const handleSubmit=async (e)=>{
     e.preventDefault();
-    if(!username || !password){
-      errorMsg="blank username or password";
-      return;
+    let newE= await loginRequest(username,password);
+    setErrorMsg(newE);
+    if(errorMsg===""){
+      setUsername("");
+      setPassword("");
     }
-    const data={username: username, password:password}
-    try {
-      const response = await axios.post("http://localhost:3001/loginRequest",data);
-      if(response.data.success){
-        setUsername("");
-        setPassword("");
-        errorMsg="";
-      }else{
-        errorMsg=response.data.errorMsg;
-      }
-    } catch (error) {
-      console.error('Login Error: ', error);
-    }
-  };
+  }
 
   return (<>
-      <form id="login" onSubmit={loginRequest}>
+      <form id="login" onSubmit={handleSubmit}>
         <input type="text" value={username} onChange={(e)=>{setUsername(e.target.value)}} id="username" placeholder='Username'/>
         <input type='password' value={password} onChange={(e)=>{setPassword(e.target.value)}} id='password' placeholder='Password'/>
         <button type="submit" id='login_btn'>Login</button>

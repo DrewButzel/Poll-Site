@@ -1,36 +1,24 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
-function Login() {
+const SignUp=({signupRequest})=> {
   const [username,setUsername]=useState("");
   const [password,setPassword]=useState("");
+  const [errorMsg,setErrorMsg]=useState("");
   const [email,setEmail]=useState("");
-  let errorMsg = ""; 
 
-  const signupRequest = async (e) => {
+  const handleSubmit= async(e)=>{
     e.preventDefault();
-    if(!username || !password|| !email){
-        errorMsg="one or more blank fields";
-        return;
-      }
-    const data={username: username, password:password, email: email}
-    try {
-      const response = await axios.post("http://localhost:3001/signupRequest",data);
-      if(response.data.success){
+    let newE = await(signupRequest(username,password,email))
+    setErrorMsg(newE);
+    if(errorMsg===""){
         setUsername("");
         setPassword("");
         setEmail("");
-        errorMsg="";
-      }else{
-        errorMsg=response.data.errorMsg;
-      }
-    } catch (error) {
-      console.error('Login Error: ', error);
     }
-  };
+  }
 
   return (<>
-      <form id="login" onSubmit={loginRequest}>
+      <form id="signup" onSubmit={handleSubmit}>
         <input type="text" value={username} onChange={(e)=>{setUsername(e.target.value)}} id="username" placeholder='Username'/>
         <input type="text" value={email} onChange={(e)=>{setEmail(e.target.value)}} id="email" placeholder='Email'/>
         <input type='password' value={password} onChange={(e)=>{setPassword(e.target.value)}} id='password' placeholder='Password'/>
@@ -41,4 +29,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default SignUp;
