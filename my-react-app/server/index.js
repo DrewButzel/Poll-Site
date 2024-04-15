@@ -6,6 +6,19 @@ const cors = require('cors');
 const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://Owen:PollPass@pollproject.tszgsix.mongodb.net/?retryWrites=true&w=majority&appName=PollProject";
 const client = new MongoClient(uri);
+
+async function run() {
+  
+  await client.connect();
+  await client.db("admin").command({ ping: 1 });
+  console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+  
+}
+
+
 const emailRegex= /^[\w!#$%&'*+\/=?^_`{|}~-]+@([\w\-]+(?:\.[\w\-]+)+)$/;
 
 
@@ -15,19 +28,19 @@ const PORT = 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
+
+
 async function checkDupe(username){
-  try{
+  
     const database = client.db('PollProjDB');
     const users = database.collection('Users');
     const query = { username: username };
     const user = await users.findOne(query);
     return user;
-  }finally{
-    await client.close();
-  }
+  
 }
 async function getPassword(username){
-  try{
+  
     const database = client.db('PollProjDB');
     const users = database.collection('Users');
     const query = { username: username };
@@ -40,19 +53,17 @@ async function getPassword(username){
       console.log("no user (or no password w associated user)");
       return null;
     }
-  }finally{
-    await client.close();
-  }
+  
 }
 async function addUser(username,password,email) {
-  try {
+  //try {
     const database = client.db('PollProjDB');
     const users = database.collection('Users');
     await users.insertOne({"username" : username, "password":password,"email":email});
     console.log(username+" with pass: "+password+" and email: "+email+" added to the DB");
-  } finally {
-    await client.close();
-  }
+  // } finally {
+  //   await client.close();
+  // }
 }
 app.post("/signupRequest",async(req, res) => {
   console.log("sing up data received u: "+req.body.username+" p: "+req.body.password+" e: "+req.body.email);
@@ -63,7 +74,8 @@ app.post("/signupRequest",async(req, res) => {
   if(validEmail){
     let dupe = await checkDupe(req.body.username);
     if(dupe){
-      res.json({success: true,errorMsg:"account already exists"});
+      console.log("dupe");
+      res.json({success: false,errorMsg:"account already exists"});
       return;
     }
     addUser(req.body.username,req.body.password,req.body.email).catch(console.dir);
@@ -83,6 +95,4 @@ app.post("/loginRequest",async (req, res) => {
   res.json({success: false, errorMsg:"incorrect username or password"});
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+run().catch(console.dir);
