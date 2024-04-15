@@ -6,15 +6,18 @@ const cors = require('cors');
 const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://Owen:PollPass@pollproject.tszgsix.mongodb.net/?retryWrites=true&w=majority&appName=PollProject";
 const client = new MongoClient(uri);
-
+let database;
+let users;
 async function run() {
-  
+  console.log("run");
   await client.connect();
   await client.db("admin").command({ ping: 1 });
   console.log("Pinged your deployment. You successfully connected to MongoDB!");
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
+  database = client.db('PollProjDB');
+  users = database.collection('Users');
   
 }
 
@@ -31,39 +34,27 @@ app.use(bodyParser.json());
 
 
 async function checkDupe(username){
-  
-    const database = client.db('PollProjDB');
-    const users = database.collection('Users');
-    const query = { username: username };
-    const user = await users.findOne(query);
-    return user;
+  const query = { username: username };
+  const user = await users.findOne(query);
+  return user;
   
 }
 async function getPassword(username){
-  
-    const database = client.db('PollProjDB');
-    const users = database.collection('Users');
-    const query = { username: username };
-    const user = await users.findOne(query);
-    console.log(user.password);
-    if(user&&user.password){
-      console.log("pass: "+user.password);
-      return user.password;
-    }else{
-      console.log("no user (or no password w associated user)");
-      return null;
-    }
+  const query = { username: username };
+  const user = await users.findOne(query);
+  console.log(user.password);
+  if(user&&user.password){
+    console.log("pass: "+user.password);
+    return user.password;
+  }else{
+    console.log("no user (or no password w associated user)");
+    return null;
+  }
   
 }
 async function addUser(username,password,email) {
-  //try {
-    const database = client.db('PollProjDB');
-    const users = database.collection('Users');
-    await users.insertOne({"username" : username, "password":password,"email":email});
-    console.log(username+" with pass: "+password+" and email: "+email+" added to the DB");
-  // } finally {
-  //   await client.close();
-  // }
+  await users.insertOne({"username" : username, "password":password,"email":email});
+  console.log(username+" with pass: "+password+" and email: "+email+" added to the DB");
 }
 app.post("/signupRequest",async(req, res) => {
   console.log("sing up data received u: "+req.body.username+" p: "+req.body.password+" e: "+req.body.email);
@@ -94,5 +85,4 @@ app.post("/loginRequest",async (req, res) => {
   }
   res.json({success: false, errorMsg:"incorrect username or password"});
 });
-
 run().catch(console.dir);
