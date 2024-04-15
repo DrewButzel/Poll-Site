@@ -53,9 +53,16 @@ function App() {
       {displayLogin?<Login loginRequest={loginRequest} />:<SignUp signupRequest={signupRequest} />}
       </>);
   }
+  function LoggedIn(){
+    return (
+      <>
+      <h2>{username}</h2>
+      <button onClick={() => {setLoggedIn(false); setUsername();}}>Logout</button>
+      </>);
+  }
 
   return (<>
-        {loggedIn ? <h2>{username}</h2> : <Credentials/>}
+        {loggedIn ? <LoggedIn/> : <Credentials/>}
       </>
   );
 }
