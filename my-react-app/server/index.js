@@ -20,8 +20,6 @@ async function run() {
   users = database.collection('Users');
   
 }
-
-
 const emailRegex= /^[\w!#$%&'*+\/=?^_`{|}~-]+@([\w\-]+(?:\.[\w\-]+)+)$/;
 
 
@@ -31,13 +29,10 @@ const PORT = 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
-
-
 async function checkDupe(username){
   const query = { username: username };
   const user = await users.findOne(query);
   return user;
-  
 }
 async function getPassword(username){
   const query = { username: username };
@@ -50,7 +45,6 @@ async function getPassword(username){
     console.log("no user (or no password w associated user)");
     return null;
   }
-  
 }
 async function addUser(username,password,email) {
   await users.insertOne({"username" : username, "password":password,"email":email});
@@ -85,4 +79,9 @@ app.post("/loginRequest",async (req, res) => {
   }
   res.json({success: false, errorMsg:"incorrect username or password"});
 });
+app.post("/voteRequest",async(req,res)=>{
+  console.log(req.body.username+"is trying to vote \""+req.body.selection+"\" on poll: "+req.body.username.pollID);
+  
+})
+
 run().catch(console.dir);
