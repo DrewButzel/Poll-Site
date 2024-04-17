@@ -25,9 +25,7 @@ function CPoll({username}) {
       const response = await axios.post("http://localhost:3001/cpoll",data);
       if(response.data.success){
         setQuestion("");
-        options.forEach((opt,index)=>{
-          updateOption(index,null);
-        })
+        setOptions(Array(5).fill(""));
       }
       setErrorMsg(response.data.errorMsg);
     } catch (error) {
