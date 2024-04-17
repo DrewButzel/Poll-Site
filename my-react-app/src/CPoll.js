@@ -1,26 +1,46 @@
 import React, { useState } from 'react';
 
 function CPoll({username}) { 
-  const [question,setQuestion]=useState("");
+  const [question,setQuestion]=useState();
   const [options,setOptions]=useState(Array(5).fill(null));
-  const [errorMsg,setErrorMsg]=useState("");
+  const [errorMsg,setErrorMsg]=useState();
 
   const handleSubmit=async (e)=>{
     e.preventDefault();
-    setQuestion()
+    if(!(options[0]&&options[1])){
+      setErrorMsg("Options 1 and 2 must not be blank")
+    }
+    const data ={question:question,options:options,username:username}
+    try {
+      const response = await axios.post("http://localhost:3001/cpoll",data);
+      if(response.data.success){
+        setQuestion();
+        setOptions(Array(5).fill(null));
+        setErrorMsg();
+      }else{
+        setErrorMsg(response.data.errorMsg);
+      }
+    } catch (error) {
+      console.error('cPoll Error: ', error);
+    }
   }
+  const updateOption = (index, value) => {
+    const updatedOptions = [...options];
+    updatedOptions[index] = value;
+    setOptions(updatedOptions);
+  };
 
   return (<>
       <h2>Input the question you want to ask</h2>
       <form id="login" onSubmit={handleSubmit}>
         <input type="text" value={question} onChange={(e)=>{setQuestion(e.target.value)}} id="question" placeholder='Question'/>
         <h3>What options do you want?</h3>
-        <input type='text' value={options[0]} onChange={(e)=>{options[0]=(e.target.value)}} placeholder='Password'/>
-        <input type='text' placeholder='Password'/>
-        <input type='text' placeholder='Password'/>
-        <input type='text' placeholder='Password'/>
-        <input type='text' placeholder='Password'/>
-        <button type="submit" id='create_btn'>Login</button>
+        <input type='text' value={options[0]} onChange={(e)=>updateOption(0,e.target.value)} placeholder='Option 1'/>
+        <input type='text' value={options[1]} onChange={(e)=>updateOption(1,e.target.value)} placeholder='Option 2'/>
+        <input type='text' value={options[2]} onChange={(e)=>updateOption(2,e.target.value)} placeholder='Option 3 (optional)'/>
+        <input type='text' value={options[3]} onChange={(e)=>updateOption(3,e.target.value)} placeholder='Option 4 (optional)'/>
+        <input type='text' value={options[4]} onChange={(e)=>updateOption(4,e.target.value)} placeholder='Option 5 (optional)'/>
+        <button type="submit" id='create_btn'>Create Poll</button>
       </form>
       <p id="error">{errorMsg}</p>
     </>
