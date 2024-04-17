@@ -71,9 +71,10 @@ function App() {
       <button onClick={() => {setLoggedIn(false); setUsername();}}>Logout</button>
       </>);
   }
-
+  let o = ["opt1","opt2","opt3"]
   return (<>
         {loggedIn ? <LoggedIn/> : <Credentials/>}
+        <Poll question="Test Q" options={o} pollID={1} voteRequest = {() => voteRequest(1,)}/>
       </>
   );
 }
