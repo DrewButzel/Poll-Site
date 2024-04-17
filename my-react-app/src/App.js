@@ -5,50 +5,48 @@ import Login from './Login';
 import SignUp from './SignUp';
 import Poll from './Poll';
 
-const loginRequest = async (username,password) => {
-  if(!username || !password){
-    return "blank username or password";
-  }
-  const data={username: username, password:password}
-  try {
-    const response = await axios.post("http://localhost:3001/loginRequest",data);
-    if(response.data.success){
-      setLoggedIn(true);
-      setUsername(response.data.username);
-      return "";
-    }else{
-      return response.data.errorMsg;
-    }
-  } catch (error) {
-    console.error('Login Error: ', error);
-  }
-};
-const signupRequest = async (username,password,email) => {
-  if(!username || !password|| !email){
-      return "one or more blank fields";
-  }
-  const data={username: username, password:password, email: email}
-  try {
-    const response = await axios.post("http://localhost:3001/signupRequest",data);
-    if(response.data.success){
-      
-      setLoggedIn(true);
-      setUsername(response.data.username);
-      return "";
-    }else{
-      return response.data.errorMsg;
-    }
-  } catch (error) {
-    console.error('Login Error: ', error);
-  }
-};
-
-
 function App() {
   const [displayLogin,setDisplayLogin] = useState(true);
   const [loggedIn,setLoggedIn]=useState(false);
   const [username,setUsername]=useState();
-  
+
+  const loginRequest = async (username,password) => {
+    if(!username || !password){
+      return "blank username or password";
+    }
+    const data={username: username, password:password}
+    try {
+      const response = await axios.post("http://localhost:3001/loginRequest",data);
+      if(response.data.success){
+        setLoggedIn(true);
+        setUsername(response.data.username);
+        return "";
+      }else{
+        return response.data.errorMsg;
+      }
+    } catch (error) {
+      console.error('Login Error: ', error);
+    }
+  };
+  const signupRequest = async (username,password,email) => {
+    if(!username || !password|| !email){
+        return "one or more blank fields";
+    }
+    const data={username: username, password:password, email: email}
+    try {
+      const response = await axios.post("http://localhost:3001/signupRequest",data);
+      if(response.data.success){
+        
+        setLoggedIn(true);
+        setUsername(response.data.username);
+        return "";
+      }else{
+        return response.data.errorMsg;
+      }
+    } catch (error) {
+      console.error('Login Error: ', error);
+    }
+  };
   const voteRequest = async (id,vote)=>{
     const data = {pollID:id,selection:vote,username:username}
     try{
