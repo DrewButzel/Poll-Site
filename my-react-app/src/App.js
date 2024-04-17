@@ -47,15 +47,7 @@ function App() {
       console.error('Login Error: ', error);
     }
   };
-  const voteRequest = async (id,vote)=>{
-    const data = {pollID:id,selection:vote,username:username}
-    try{
-      const response = await axios.post("http://localhost:3001/voteRequest",data);
-      return response.data.votedOn;
-    }catch (error){
-      console.error('Voting Error: ', error);
-    }
-  }
+  
 
   function Credentials(){
     return (
@@ -74,7 +66,7 @@ function App() {
   let o = ["opt1","opt2","opt3"]
   return (<>
         {loggedIn ? <LoggedIn/> : <Credentials/>}
-        <Poll question="Test Q" options={o} pollID={1} voteRequest = {() => voteRequest(1,)}/>
+        <Poll question="Test Q" options={o} pollID={1} username = {username}/>
       </>
   );
 }

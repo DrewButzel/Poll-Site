@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 
-function Poll({question,options,pollID,voteRequest}){
+function Poll({question,options,pollID,username}){
     const [selectedVal,setSelectedVal]= useState();
     const [displayResults,setDisplayResults]= useState(false);
     const answers = options.map(option => {
@@ -17,6 +17,15 @@ function Poll({question,options,pollID,voteRequest}){
         e.preventDefault();
         let votedOn = await voteRequest(pollID,selectedVal);
         setDisplayResults(votedOn);
+    }
+    const voteRequest = async (id,username)=>{
+        const data = {pollID:id,selection:vote,username:username}
+        try{
+          const response = await axios.post("http://localhost:3001/voteRequest",data);
+          return response.data.votedOn;
+        }catch (error){
+          console.error('Voting Error: ', error);
+        }
     }
 
     return(<>
