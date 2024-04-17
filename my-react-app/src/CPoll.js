@@ -1,31 +1,26 @@
 import React, { useState } from 'react';
 
-function CPoll({loginRequest}) { 
-  const [username,setUsername]=useState("");
-  const [password,setPassword]=useState("");
+function CPoll({username}) { 
+  const [question,setQuestion]=useState("");
+  const [options,setOptions]=useState(Array(5).fill(null));
   const [errorMsg,setErrorMsg]=useState("");
 
   const handleSubmit=async (e)=>{
     e.preventDefault();
-    let newE= await loginRequest(username,password);
-    setErrorMsg(newE);
-    if(errorMsg===""){
-      setUsername("");
-      setPassword("");
-    }
+    setQuestion()
   }
 
   return (<>
       <h2>Input the question you want to ask</h2>
       <form id="login" onSubmit={handleSubmit}>
-        <input type="text" value={username} onChange={(e)=>{setUsername(e.target.value)}} id="username" placeholder='Username'/>
+        <input type="text" value={question} onChange={(e)=>{setQuestion(e.target.value)}} id="question" placeholder='Question'/>
         <h3>What options do you want?</h3>
-        <input type='text' value={password} onChange={(e)=>{setPassword(e.target.value)}} id='password' placeholder='Password'/>
-        <input type='text' value={password} onChange={(e)=>{setPassword(e.target.value)}} id='password' placeholder='Password'/>
-        <input type='text' value={password} onChange={(e)=>{setPassword(e.target.value)}} id='password' placeholder='Password'/>
-        <input type='text' value={password} onChange={(e)=>{setPassword(e.target.value)}} id='password' placeholder='Password'/>
-        <input type='text' value={password} onChange={(e)=>{setPassword(e.target.value)}} id='password' placeholder='Password'/>
-        <button type="submit" id='login_btn'>Login</button>
+        <input type='text' value={options[0]} onChange={(e)=>{options[0]=(e.target.value)}} placeholder='Password'/>
+        <input type='text' placeholder='Password'/>
+        <input type='text' placeholder='Password'/>
+        <input type='text' placeholder='Password'/>
+        <input type='text' placeholder='Password'/>
+        <button type="submit" id='create_btn'>Login</button>
       </form>
       <p id="error">{errorMsg}</p>
     </>

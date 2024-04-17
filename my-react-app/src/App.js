@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Login from './Login';
 import SignUp from './SignUp';
-import Poll from './Poll';
+// import Poll from './Poll';
 
 function App() {
   const [displayLogin,setDisplayLogin] = useState(true);
@@ -66,7 +66,7 @@ function App() {
   let o = ["opt1","opt2","opt3"]
   return (<>
         {loggedIn ? <LoggedIn/> : <Credentials/>}
-        <Poll question="Test Q" options={o} pollID={1} username = {username}/>
+        {/* <Poll question="Test Q" options={o} pollID={1} username = {username}/> */}
       </>
   );
 }
