@@ -8,6 +8,7 @@ const uri = "mongodb+srv://Owen:PollPass@pollproject.tszgsix.mongodb.net/?retryW
 const client = new MongoClient(uri);
 let database;
 let users;
+let polls;
 async function run() {
   console.log("run");
   await client.connect();
@@ -18,11 +19,11 @@ async function run() {
   });
   database = client.db('PollProjDB');
   users = database.collection('Users');
+  polls = database.collection('Polls');
   
 }
 const emailRegex= /^[\w!#$%&'*+\/=?^_`{|}~-]+@([\w\-]+(?:\.[\w\-]+)+)$/;
-
-
+const MIN_POLL_OPTIONS=2;
 const app = express();
 const PORT = 3001;
 
@@ -46,12 +47,26 @@ async function getPassword(username){
     return null;
   }
 }
+async function addPoll(username,question,options){
+  let realOptions=[]
+  options.array.forEach(element => {
+    if (element){
+      realOptions.push(element);
+    }
+  });
+  if(realOptions.length<MIN_POLL_OPTIONS){
+    console.log("Poll NOT created by "+req.body.username+" with question "+req.body.question+"(too few options)");
+    return false;
+  }
+  await polls.insertOne({"username":username,"question":question,"options":realOptions});
+  console.log("Poll created by "+req.body.username+" with question "+req.body.question);
+}
 async function addUser(username,password,email) {
   await users.insertOne({"username" : username, "password":password,"email":email});
   console.log(username+" with pass: "+password+" and email: "+email+" added to the DB");
 }
 app.post("/signupRequest",async(req, res) => {
-  console.log("sing up data received u: "+req.body.username+" p: "+req.body.password+" e: "+req.body.email);
+  console.log("sign up data received u: "+req.body.username+" p: "+req.body.password+" e: "+req.body.email);
   let validEmail=false;
   if(match=emailRegex.exec(req.body.email)){
     validEmail=true;
@@ -79,6 +94,16 @@ app.post("/loginRequest",async (req, res) => {
   }
   res.json({success: false, errorMsg:"incorrect username or password"});
 });
+app.post("/cpoll", async (req,res)=>{
+  let result = await addPoll(req.body.username,req.body.question,req.body.options);
+  if(result){
+    res.json({success: true,errorMsg:"Poll Created!"});
+  }
+  else{
+    res.json({success: false,errorMsg:"Poll Not Created"});
+  }
+
+})
 app.post("/voteRequest",async(req,res)=>{
   console.log(req.body.username+"is trying to vote \""+req.body.selection+"\" on poll: "+req.body.username.pollID);
   

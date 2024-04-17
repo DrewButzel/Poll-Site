@@ -16,10 +16,8 @@ function CPoll({username}) {
       if(response.data.success){
         setQuestion();
         setOptions(Array(5).fill(null));
-        setErrorMsg();
-      }else{
-        setErrorMsg(response.data.errorMsg);
       }
+      setErrorMsg(response.data.errorMsg);
     } catch (error) {
       console.error('cPoll Error: ', error);
     }
