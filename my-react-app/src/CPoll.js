@@ -8,15 +8,26 @@ function CPoll({username}) {
 
   const handleSubmit=async (e)=>{
     e.preventDefault();
+    if(username===""){
+      setErrorMsg("Must be logged in to create a poll");
+      return;
+    }
+    if(!question){
+      setErrorMsg("Question must not be blank");
+      return;
+    }
     if(!(options[0]&&options[1])){
-      setErrorMsg("Options 1 and 2 must not be blank")
+      setErrorMsg("Options 1 and 2 must not be blank");
+      return;
     }
     const data ={question:question,options:options,username:username}
     try {
       const response = await axios.post("http://localhost:3001/cpoll",data);
       if(response.data.success){
-        setQuestion();
-        setOptions(Array(5).fill(null));
+        setQuestion("");
+        options.forEach((opt,index)=>{
+          updateOption(index,null);
+        })
       }
       setErrorMsg(response.data.errorMsg);
     } catch (error) {

@@ -11,7 +11,7 @@ function App() {
   const [displayLogin,setDisplayLogin] = useState(true);
   const [loggedIn,setLoggedIn]=useState(false);
   const [cPoll,setCPoll]=useState(false);
-  const [username,setUsername]=useState();
+  const [username,setUsername]=useState("");
 
   const loginRequest = async (username,password) => {
     if(!username || !password){
@@ -63,10 +63,9 @@ function App() {
     return (
       <>
       <h2>{username}</h2>
-      <button onClick={() => {setLoggedIn(false); setUsername();}}>Logout</button>
+      <button onClick={() => {setLoggedIn(false); setUsername("");}}>Logout</button>
       </>);
   }
-  let o = ["opt1","opt2","opt3"]
   function DCPoll() {
     return (
       <>

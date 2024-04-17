@@ -40,7 +40,6 @@ async function getPassword(username){
   const user = await users.findOne(query);
   console.log(user.password);
   if(user&&user.password){
-    console.log("pass: "+user.password);
     return user.password;
   }else{
     console.log("no user (or no password w associated user)");
@@ -49,17 +48,18 @@ async function getPassword(username){
 }
 async function addPoll(username,question,options){
   let realOptions=[]
-  options.array.forEach(element => {
+  options.forEach(element => {
     if (element){
       realOptions.push(element);
     }
   });
   if(realOptions.length<MIN_POLL_OPTIONS){
-    console.log("Poll NOT created by "+req.body.username+" with question "+req.body.question+"(too few options)");
+    console.log("Poll NOT created by "+username+" with question "+question+"(too few options)");
     return false;
   }
   await polls.insertOne({"username":username,"question":question,"options":realOptions});
-  console.log("Poll created by "+req.body.username+" with question "+req.body.question);
+  console.log("Poll created by "+username+" with question "+question);
+  return true;
 }
 async function addUser(username,password,email) {
   await users.insertOne({"username" : username, "password":password,"email":email});
@@ -87,7 +87,7 @@ app.post("/signupRequest",async(req, res) => {
 app.post("/loginRequest",async (req, res) => {
   console.log("login data received u: "+req.body.username+" p: "+req.body.password);
   let pass = await getPassword(req.body.username);
-  console.log(pass+" "+req.body.password);
+  console.log("actual pass: "+pass+" entered pass: "+req.body.password);
   if(pass===req.body.password){
     res.json({success: true,username:req.body.username});
     return;
