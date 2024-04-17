@@ -18,7 +18,7 @@ function Poll({question,options,pollID,username}){
         let votedOn = await voteRequest(pollID,selectedVal);
         setDisplayResults(votedOn);
     }
-    const voteRequest = async (id,username)=>{
+    const voteRequest = async (id,vote)=>{
         const data = {pollID:id,selection:vote,username:username}
         try{
           const response = await axios.post("http://localhost:3001/voteRequest",data);
