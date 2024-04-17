@@ -1,0 +1,5 @@
+#create_poll {
+    display: flex;
+    flex-direction: column;
+    width: 15vw;
+}

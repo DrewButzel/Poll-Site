@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import axios from 'axios';
+import './CPoll.css'
 function CPoll({username}) { 
   const [question,setQuestion]=useState();
   const [options,setOptions]=useState(Array(5).fill(null));
@@ -30,7 +31,7 @@ function CPoll({username}) {
 
   return (<>
       <h2>Input the question you want to ask</h2>
-      <form id="login" onSubmit={handleSubmit}>
+      <form id="create_poll" onSubmit={handleSubmit}>
         <input type="text" value={question} onChange={(e)=>{setQuestion(e.target.value)}} id="question" placeholder='Question'/>
         <h3>What options do you want?</h3>
         <input type='text' value={options[0]} onChange={(e)=>updateOption(0,e.target.value)} placeholder='Option 1'/>

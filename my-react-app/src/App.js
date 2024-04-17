@@ -3,11 +3,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import Login from './Login';
 import SignUp from './SignUp';
+import CPoll from './CPoll';
+import './App.css'
 // import Poll from './Poll';
 
 function App() {
   const [displayLogin,setDisplayLogin] = useState(true);
   const [loggedIn,setLoggedIn]=useState(false);
+  const [cPoll,setCPoll]=useState(false);
   const [username,setUsername]=useState();
 
   const loginRequest = async (username,password) => {
@@ -64,8 +67,24 @@ function App() {
       </>);
   }
   let o = ["opt1","opt2","opt3"]
+  function DCPoll() {
+    return (
+      <>
+      <button onClick={() => {setCPoll(false);}}>Hide Create a Poll</button>
+      <CPoll username={username}/>
+      </>
+    );
+  }
+  function CrPoll() {
+    return (
+      <>
+      <button onClick={() => {setCPoll(true);}}>Create a Poll</button>
+      </>
+    );
+  }
   return (<>
         {loggedIn ? <LoggedIn/> : <Credentials/>}
+        {cPoll ? <DCPoll/> : <CrPoll/>}
         {/* <Poll question="Test Q" options={o} pollID={1} username = {username}/> */}
       </>
   );
