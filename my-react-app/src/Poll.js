@@ -3,6 +3,16 @@ import axios from 'axios';
 
 
 function Poll({question,options,pollID,username}){
+    const initialCheckVoted = async ()=>{
+        const data = {pollID:id,username:username}
+        try{
+          const response = await axios.get("http://localhost:3001/initCheck", data);
+          return response.data.votedOn;
+        }catch (error){
+          console.error('Voting Error: ', error);
+        }
+    }
+
     const [selectedVal,setSelectedVal]= useState();
     const [displayResults,setDisplayResults]= useState(false);
     const answers = options.map(option => {
