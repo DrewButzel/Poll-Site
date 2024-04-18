@@ -119,11 +119,13 @@ app.get("/votedCheck",async(req,res)=>{
 });
 app.get("/displayPollsRequest", async(req,res)=>{
   let cursor;
+  console.log("display");
   try{
     cursor = await polls.find();
   }catch{
     res.json({success:false});
   }
+  console.log(cursor);
   const polls = [];
   console.log("getting polls");
   while(cursor.hasNext()){
