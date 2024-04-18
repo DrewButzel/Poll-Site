@@ -44,13 +44,14 @@ async function getPassword(username){
   }
 }
 async function addPoll(username,question,options){
-  let result= await polls.insertOne({"username":username,"question":question,"options":options,"votedList":{}});
+  const result= await polls.insertOne({"username":username,"question":question,"options":options,"votedList":{}});
   if(result.acknowledged){
     console.log("Poll created by "+username+" with question "+question);
-  }else{
-    console.log("Poll NOT created by "+username+" with question "+question);
+    const poll = {username:username,question:question,options:options,votedList:{},_id:result.insertedId};
+    return {success:true,poll:poll};
   }
-  return true;
+  console.log("Poll NOT created by "+username+" with question "+question);
+  return {success:false};
 }
 async function addUser(username,password,email) {
   await users.insertOne({"username" : username, "password":password,"email":email});
@@ -86,9 +87,9 @@ app.post("/loginRequest",async (req, res) => {
   res.json({success: false, errorMsg:"incorrect username or password"});
 });
 app.post("/cpoll", async (req,res)=>{
-  let result = await addPoll(req.body.username,req.body.question,req.body.options);
-  if(result){
-    res.json({success: true,errorMsg:"Poll Created!"});
+  const result = await addPoll(req.body.username,req.body.question,req.body.options);
+  if(result.success){
+    res.json({success: true,errorMsg:"Poll Created!",poll:result.poll});
   }
   else{
     res.json({success: false,errorMsg:"Error: Poll Not Created"});
