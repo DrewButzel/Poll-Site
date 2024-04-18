@@ -20,12 +20,10 @@ async function run() {
   database = client.db('PollProjDB');
   users = database.collection('Users');
   polls = database.collection('Polls');
-  
 }
 const emailRegex= /^[\w!#$%&'*+\/=?^_`{|}~-]+@([\w\-]+(?:\.[\w\-]+)+)$/;
 const app = express();
 const PORT = 3001;
-
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -46,13 +44,14 @@ async function getPassword(username){
   }
 }
 async function addPoll(username,question,options){
-  let result= await polls.insertOne({"username":username,"question":question,"options":options,"votedList":{}});
+  const result= await polls.insertOne({"username":username,"question":question,"options":options,"votedList":{}});
   if(result.acknowledged){
     console.log("Poll created by "+username+" with question "+question);
-  }else{
-    console.log("Poll NOT created by "+username+" with question "+question);
+    const poll = {username:username,question:question,options:options,_id:result.insertedId};
+    return {success:true,poll:poll};
   }
-  return true;
+  console.log("Poll NOT created by "+username+" with question "+question);
+  return {success:false};
 }
 async function addUser(username,password,email) {
   await users.insertOne({"username" : username, "password":password,"email":email});
@@ -88,9 +87,9 @@ app.post("/loginRequest",async (req, res) => {
   res.json({success: false, errorMsg:"incorrect username or password"});
 });
 app.post("/cpoll", async (req,res)=>{
-  let result = await addPoll(req.body.username,req.body.question,req.body.options);
-  if(result){
-    res.json({success: true,errorMsg:"Poll Created!"});
+  const result = await addPoll(req.body.username,req.body.question,req.body.options);
+  if(result.success){
+    res.json({success: true,errorMsg:"Poll Created!",poll:result.poll});
   }
   else{
     res.json({success: false,errorMsg:"Error: Poll Not Created"});
@@ -99,13 +98,13 @@ app.post("/cpoll", async (req,res)=>{
 });
 app.post("/voteRequest",async(req,res)=>{
   console.log(req.body.username+"is trying to vote \""+req.body.selection+"\" on poll: "+req.body.username.pollID);
-  const querry={_id:req.body.pollID};
+  const query={_id:req.body.pollID};
   const set = {};
   const inc = {};
   set["votedList."+req.body.username]=true; 
   inc["options."+req.body.vote];
   const update={$set:set,$inc:inc};
-  let result=await polls.updateOne(querry,update);
+  let result=await polls.updateOne(query,update);
   res.json({success:result.acknowledged});
 });
 app.get("/votedCheck",async(req,res)=>{
@@ -118,4 +117,20 @@ app.get("/votedCheck",async(req,res)=>{
   const found = result!==null;
   res.json({found:found});
 });
+app.get("/displayPollsRequest", async(req,res)=>{
+  let cursor;
+  console.log("display");
+  try{
+    cursor = await polls.find();
+  }catch{
+    res.json({success:false});
+  }
+  console.log(cursor);
+  const polls = [];
+  console.log("getting polls");
+  while(cursor.hasNext()){
+    polls.push(cursor.next());
+  }
+  res.json({success:true,polls:polls});
+})
 run().catch(console.dir);

@@ -20,9 +20,12 @@ Functionality (50 points)
 4) 10 Database contains Users, Polls, and Votes with the necessary columns and column types to maintain the above functionality  
 5) 10 charts will be displayed with the results after voting  
 
-
 Best Practice (5 points)  
 3 Code is readable and well formatted  
 2 All pages pass the html validator  
 
 Creative (10 points)  
+-dupe checking for poll options  
+-valid email checker  
+-check for dupe user signup  
+-
