@@ -123,9 +123,10 @@ app.get("/displayPollsRequest", async(req,res)=>{
     const cursor = await polls.find();
     const foundPolls = [];
     console.log("getting polls");
-    while(cursor.hasNext()){
-      foundPolls.push(cursor.next());
+    while(await cursor.hasNext()){
+      foundPolls.push(await cursor.next());
     }
+    console.log("poop");
     res.json({success:true,polls:foundPolls});
   }catch{
     res.json({success:false});

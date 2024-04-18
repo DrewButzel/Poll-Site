@@ -13,11 +13,29 @@ function App() {
   const [cPoll,setCPoll]=useState(false);
   const [username,setUsername]=useState("");
   const [polls,setPolls]=useState([]);
-  useEffect(()=>{
+  useEffect(() => {
+    const getPolls = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/displayPollsRequest");
+        alert(response.data.success);
+        if (response.data.success) {
+          alert(response.data.polls[1].question);
+          setPolls(currentPolls => {
+            if (JSON.stringify(currentPolls) !== JSON.stringify(response.data.polls)) {
+              return response.data.polls;
+            }
+            return currentPolls;
+          });
+        }
+      } catch (error) {
+        console.error('Login Error: ', error);
+      }
+    };
     getPolls();
-  },[]);
+  }, []);
+  
   const addPoll = (newPoll) => {
-    const updatedPolls = [...polls, { id: newPoll._id,username: newPoll.username, question: newPoll.question, options: newPoll.options }];
+    const updatedPolls = [...polls, { _id: newPoll._id,username: newPoll.username, question: newPoll.question, options: newPoll.options }];
     setPolls(updatedPolls);
   };
   const loginRequest = async (username,password) => {
@@ -57,18 +75,7 @@ function App() {
       console.error('Login Error: ', error);
     }
   };
-  const getPolls = async () => {
-    try {
-      const response = await axios.get("http://localhost:3001/displayPollsRequest");
-      alert(response.data.success);
-      if(response.data.success) {
-        alert(response.data.polls);
-        setPolls(response.data.polls);
-      }
-    } catch (error) {
-      console.error('Login Error: ', error);
-    }
-  };
+  
 
   function Credentials(){
     return (
@@ -104,10 +111,10 @@ function App() {
         {cPoll ? <DCPoll/> : <CrPoll/>}
         {/* <Poll question="Test Q" options={o} pollID={1} username = {username}/> */}
         {/* {polls.map(poll => (
-          <Poll key={poll.id}
+          <Poll key={poll._id}
           question = {poll.question} 
           options = {poll.options}
-          pollID={poll.id} 
+          pollID={poll._id} 
           username={username.poll} 
           />
         ))} */}
