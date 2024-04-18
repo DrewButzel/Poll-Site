@@ -50,8 +50,6 @@ function App() {
       console.error('Login Error: ', error);
     }
   };
-  
-
   function Credentials(){
     return (
       <>

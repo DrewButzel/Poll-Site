@@ -20,12 +20,10 @@ async function run() {
   database = client.db('PollProjDB');
   users = database.collection('Users');
   polls = database.collection('Polls');
-  
 }
 const emailRegex= /^[\w!#$%&'*+\/=?^_`{|}~-]+@([\w\-]+(?:\.[\w\-]+)+)$/;
 const app = express();
 const PORT = 3001;
-
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -99,13 +97,13 @@ app.post("/cpoll", async (req,res)=>{
 });
 app.post("/voteRequest",async(req,res)=>{
   console.log(req.body.username+"is trying to vote \""+req.body.selection+"\" on poll: "+req.body.username.pollID);
-  const querry={_id:req.body.pollID};
+  const query={_id:req.body.pollID};
   const set = {};
   const inc = {};
   set["votedList."+req.body.username]=true; 
   inc["options."+req.body.vote];
   const update={$set:set,$inc:inc};
-  let result=await polls.updateOne(querry,update);
+  let result=await polls.updateOne(query,update);
   res.json({success:result.acknowledged});
 });
 app.get("/votedCheck",async(req,res)=>{
@@ -118,4 +116,17 @@ app.get("/votedCheck",async(req,res)=>{
   const found = result!==null;
   res.json({found:found});
 });
+app.get("/displayPollsRequest", async(req,res)=>{
+  try{
+    const cursor = await polls.find();
+  }catch{
+    res.json({success:false});
+  }
+  const polls = [];
+  console.log("getting polls");
+  while(cursor.hasNext()){
+    polls.push(cursor.next());
+  }
+  res.json({success:true,polls:polls});
+})
 run().catch(console.dir);
