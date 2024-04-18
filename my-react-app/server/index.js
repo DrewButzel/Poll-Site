@@ -121,12 +121,12 @@ app.get("/displayPollsRequest", async(req,res)=>{
   console.log("display");
   try{
     const cursor = await polls.find();
-    const polls = [];
+    const foundPolls = [];
     console.log("getting polls");
     while(cursor.hasNext()){
-      polls.push(cursor.next());
+      foundPolls.push(cursor.next());
     }
-    res.json({success:true,polls:polls});
+    res.json({success:true,polls:foundPolls});
   }catch{
     res.json({success:false});
   }
