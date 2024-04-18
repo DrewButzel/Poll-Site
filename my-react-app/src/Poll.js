@@ -8,7 +8,7 @@ function Poll({question,options,pollID,username}){
     votedCheck();
   },[])
   const votedCheck = async ()=>{
-    const data = {pollID:id,username:username}
+    const data = {pollID:pollID,username:username}
     try{
       const response = await axios.get("http://localhost:3001/votedCheck", data);
       setDisplayResults(response.data.found);
@@ -16,9 +16,9 @@ function Poll({question,options,pollID,username}){
       console.error('Voting Error: ', error);
     }
   }
-  const answers = options.map(option,idx => {
+  const answers = Object.keys[options].map(option => {
     return(<>
-    <input type="radio" id={pollID+"_"+idx} onChange={handleSelect} value={option}/><label for={pollID+"_"+idx} value={option}/><br/>
+    <input type="radio" id={pollID+"_"+option} onChange={handleSelect} value={option}/><label for={pollID+"_"+option} value={option}/><br/>
     </>);
   })
   const handleSelect= (e)=>{

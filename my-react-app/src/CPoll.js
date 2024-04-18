@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './CPoll.css'
-function CPoll({username}) { 
+function CPoll({username,addPoll}) { 
   const [question,setQuestion]=useState();
   const [options,setOptions]=useState(Array(5).fill(null));
   const [errorMsg,setErrorMsg]=useState();
@@ -40,6 +40,8 @@ function CPoll({username}) {
       if(response.data.success){
         setQuestion("");
         setOptions(Array(5).fill(""));
+        const newPollData = await response.data.poll;
+        addPoll(newPollData);
       }
       setErrorMsg(response.data.errorMsg);
     } catch (error) {

@@ -1,5 +1,5 @@
 //starter code for this file from https://www.codewithfaraz.com/article/133/how-to-connect-react-with-nodejs-using-express-a-step-by-step-guide
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import Login from './Login';
 import SignUp from './SignUp';
@@ -12,7 +12,14 @@ function App() {
   const [loggedIn,setLoggedIn]=useState(false);
   const [cPoll,setCPoll]=useState(false);
   const [username,setUsername]=useState("");
-
+  const [polls,setPolls]=useState([]);
+  useEffect(()=>{
+    getPolls();
+  },[]);
+  const addPoll = (newPoll) => {
+    const updatedPolls = [...polls, { id: newPoll._id,username: newPoll.username, question: newPoll.question, options: newPoll.options }];
+    setPolls(updatedPolls);
+  };
   const loginRequest = async (username,password) => {
     if(!username || !password){
       return "blank username or password";
@@ -50,7 +57,18 @@ function App() {
       console.error('Login Error: ', error);
     }
   };
-  
+  const getPolls = async () => {
+    try {
+      const response = await axios.post("http://localhost:3001/displayPollsRequest");
+      alert(response.data.success);
+      if(response.data.success) {
+        alert(response.data.polls);
+        setPolls(response.data.polls);
+      }
+    } catch (error) {
+      console.error('Login Error: ', error);
+    }
+  };
 
   function Credentials(){
     return (
@@ -70,7 +88,7 @@ function App() {
     return (
       <>
       <button onClick={() => {setCPoll(false);}}>Hide Create a Poll</button>
-      <CPoll username={username}/>
+      <CPoll username={username} addPoll = {addPoll}/>
       </>
     );
   }
@@ -85,6 +103,14 @@ function App() {
         {loggedIn ? <LoggedIn/> : <Credentials/>}
         {cPoll ? <DCPoll/> : <CrPoll/>}
         {/* <Poll question="Test Q" options={o} pollID={1} username = {username}/> */}
+        {/* {polls.map(poll => (
+          <Poll key={poll.id}
+          question = {poll.question} 
+          options = {poll.options}
+          pollID={poll.id} 
+          username={username.poll} 
+          />
+        ))} */}
       </>
   );
 }
