@@ -118,19 +118,17 @@ app.get("/votedCheck",async(req,res)=>{
   res.json({found:found});
 });
 app.get("/displayPollsRequest", async(req,res)=>{
-  let cursor;
   console.log("display");
   try{
-    cursor = await polls.find();
+    const cursor = await polls.find();
+    const polls = [];
+    console.log("getting polls");
+    while(cursor.hasNext()){
+      polls.push(cursor.next());
+    }
+    res.json({success:true,polls:polls});
   }catch{
     res.json({success:false});
   }
-  console.log(cursor);
-  const polls = [];
-  console.log("getting polls");
-  while(cursor.hasNext()){
-    polls.push(cursor.next());
-  }
-  res.json({success:true,polls:polls});
 })
 run().catch(console.dir);
