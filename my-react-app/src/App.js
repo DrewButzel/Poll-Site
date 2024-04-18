@@ -59,7 +59,7 @@ function App() {
   };
   const getPolls = async () => {
     try {
-      const response = await axios.post("http://localhost:3001/displayPollsRequest");
+      const response = await axios.get("http://localhost:3001/displayPollsRequest");
       alert(response.data.success);
       if(response.data.success) {
         alert(response.data.polls);
