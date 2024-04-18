@@ -23,7 +23,6 @@ async function run() {
   
 }
 const emailRegex= /^[\w!#$%&'*+\/=?^_`{|}~-]+@([\w\-]+(?:\.[\w\-]+)+)$/;
-const MIN_POLL_OPTIONS=2;
 const app = express();
 const PORT = 3001;
 
@@ -47,18 +46,12 @@ async function getPassword(username){
   }
 }
 async function addPoll(username,question,options){
-  let realOptions=[]
-  options.forEach(element => {
-    if (element){
-      realOptions.push(element);
-    }
-  });
-  if(realOptions.length<MIN_POLL_OPTIONS){
-    console.log("Poll NOT created by "+username+" with question "+question+"(too few options)");
-    return false;
+  let result= await polls.insertOne({"username":username,"question":question,"options":options,"votedList":{}});
+  if(result.acknowledged){
+    console.log("Poll created by "+username+" with question "+question);
+  }else{
+    console.log("Poll NOT created by "+username+" with question "+question);
   }
-  await polls.insertOne({"username":username,"question":question,"options":realOptions});
-  console.log("Poll created by "+username+" with question "+question);
   return true;
 }
 async function addUser(username,password,email) {
@@ -100,13 +93,29 @@ app.post("/cpoll", async (req,res)=>{
     res.json({success: true,errorMsg:"Poll Created!"});
   }
   else{
-    res.json({success: false,errorMsg:"Poll Not Created"});
+    res.json({success: false,errorMsg:"Error: Poll Not Created"});
   }
 
-})
+});
 app.post("/voteRequest",async(req,res)=>{
   console.log(req.body.username+"is trying to vote \""+req.body.selection+"\" on poll: "+req.body.username.pollID);
-  
-})
-
+  const querry={_id:req.body.pollID};
+  const set = {};
+  const inc = {};
+  set["votedList."+req.body.username]=true; 
+  inc["options."+req.body.vote];
+  const update={$set:set,$inc:inc};
+  let result=await polls.updateOne(querry,update);
+  res.json({success:result.acknowledged});
+});
+app.get("/votedCheck",async(req,res)=>{
+  console.log("checking if"+req.body.username+"has voted on poll "+req.body.pollID);
+  const query={};
+  query["_id"]=req.body.pollID;
+  query["votedList."+req.body.username]=true;
+  const result=await polls.findOne(query,{_id:1});
+  console.log("result: "+result);
+  const found = result!==null;
+  res.json({found:found});
+});
 run().catch(console.dir);

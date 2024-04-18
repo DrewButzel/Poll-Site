@@ -20,7 +20,21 @@ function CPoll({username}) {
       setErrorMsg("Options 1 and 2 must not be blank");
       return;
     }
-    const data ={question:question,options:options,username:username}
+    let nonNullCount=0;
+    const nonNullOptions={};
+    options.forEach((option)=>{
+      if(option){
+        nonNullCount++;
+      }
+      if(nonNullOptions[option]==null&&option){
+        nonNullOptions[option]=0;
+      }
+    });
+    if(nonNullCount!==Object.keys(nonNullOptions).length){
+      setErrorMsg("Duplicate Options");
+      return;
+    }
+    const data ={question:question,options:nonNullOptions,username:username}
     try {
       const response = await axios.post("http://localhost:3001/cpoll",data);
       if(response.data.success){
