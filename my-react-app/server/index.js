@@ -3,7 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 const uri = "mongodb+srv://Owen:PollPass@pollproject.tszgsix.mongodb.net/?retryWrites=true&w=majority&appName=PollProject";
 const client = new MongoClient(uri);
 let database;
@@ -97,15 +97,26 @@ app.post("/cpoll", async (req,res)=>{
 
 });
 app.post("/voteRequest",async(req,res)=>{
-  console.log(req.body.username+" is trying to vote \""+req.body.selection+"\" on poll: "+req.body.username.pollID);
-  const query={_id:req.body.pollID};
+  console.log("checking if"+req.body.username+"has voted on poll "+req.body.pollID);
+  let query={};
+  query["_id"]=new ObjectId(req.body.pollID);
+  query["votedList."+req.body.username]=true;
+  const findResult=await polls.findOne(query,{_id:1});
+  console.log(findResult);
+  if(findResult!==null){
+    res.json({votedOn:true});
+    return;
+  }
+  console.log(req.body.username+" is trying to vote \""+req.body.vote+"\" on poll: "+req.body.pollID);
+  const id = new ObjectId(req.body.pollID);
+  query={_id:id};
   const set = {};
   const inc = {};
   set["votedList."+req.body.username]=true; 
-  inc["options."+req.body.vote];
+  inc["options."+req.body.vote]=1;
   const update={$set:set,$inc:inc};
   let result=await polls.updateOne(query,update);
-  res.json({success:result.acknowledged});
+  res.json({votedOn:result.acknowledged});
 });
 app.get("/displayPollsRequest", async(req,res)=>{
   try{

@@ -20,14 +20,15 @@ function App() {
       try {
         const response = await axios.get("http://localhost:3001/displayPollsRequest");
         if (response.data.success) {
+          console.log(username);
           setPolls(response.data.polls.map((poll) => (
             <Poll
               key={poll._id}
+              username={username}
+              votedList={poll.votedList}
               question={poll.question}
               options={poll.options}
               pollID={poll._id}
-              username={username}
-              votedList={poll.votedList}
             />
           )));
         }
@@ -38,8 +39,6 @@ function App() {
       }
     };
     getPolls();
-    alert(username)
-    alert(loggedIn)
   }, [username]);
   
   const addPoll = (newPoll) => {
