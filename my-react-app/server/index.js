@@ -107,19 +107,9 @@ app.post("/voteRequest",async(req,res)=>{
   let result=await polls.updateOne(query,update);
   res.json({success:result.acknowledged});
 });
-app.get("/votedCheck",async(req,res)=>{
-  console.log("checking if"+req.body.username+"has voted on poll "+req.body.pollID);
-  const query={};
-  query["_id"]=req.body.pollID;
-  query["votedList."+req.body.username]=true;
-  const result=await polls.findOne(query,{_id:1});
-  console.log("result: "+result);
-  const found = result!==null;
-  res.json({found:found});
-});
 app.get("/displayPollsRequest", async(req,res)=>{
   try{
-    const cursor = await polls.find();
+    const cursor = await polls.find(); 
     const foundPolls = [];
     console.log("getting polls");
     while(await cursor.hasNext()){
@@ -129,5 +119,15 @@ app.get("/displayPollsRequest", async(req,res)=>{
   }catch{
     res.json({success:false});
   }
-})
+});
+// app.get("/votedCheck",async(req,res)=>{
+//   console.log("checking if"+req.body.username+"has voted on poll "+req.body.pollID);
+//   const query={};
+//   query["_id"]=req.body.pollID;
+//   query["votedList."+req.body.username]=true;
+//   const result=await polls.findOne(query,{_id:1});
+//   console.log("result: "+result);
+//   const found = result!==null;
+//   res.json({found:found});
+// });
 run().catch(console.dir);

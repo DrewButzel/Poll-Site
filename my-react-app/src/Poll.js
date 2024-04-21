@@ -26,14 +26,13 @@ function Poll({question,options,pollID,username}){
   }
   const handleSubmit=async (e)=>{
     e.preventDefault();
-    let votedOn = await voteRequest(pollID,selectedVal);
-    setDisplayResults(votedOn);
+    voteRequest(pollID,selectedVal);
   }
   const voteRequest = async (id,vote)=>{
     const data = {pollID:id,vote:vote,username:username}
     try{
       const response = await axios.post("http://localhost:3001/voteRequest",data);
-      return response.data.success;
+      setDisplayResults(response.data.success);
     }catch (error){
       console.error('Voting Error: ', error);
     }
