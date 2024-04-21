@@ -17,21 +17,16 @@ function App() {
     const getPolls = async () => {
       try {
         const response = await axios.get("http://localhost:3001/displayPollsRequest");
-        alert(response.data.success);
         if (response.data.success) {
           alert(response.data.polls[1].question);
-          setPolls(currentPolls => {
-            if (JSON.stringify(currentPolls) !== JSON.stringify(response.data.polls)) {
-              return response.data.polls;
-            }
-            return currentPolls;
-          });
+          setPolls(response.data.polls);
         }
       } catch (error) {
         console.error('Login Error: ', error);
       }
     };
     getPolls();
+    
   }, []);
   
   const addPoll = (newPoll) => {
@@ -107,9 +102,10 @@ function App() {
     );
   }
   return (<>
+        <button onClick = {()=>{alert(JSON.stringify(polls))
+    alert(polls.options)}}>Alerts</button>
         {loggedIn ? <LoggedIn/> : <Credentials/>}
         {cPoll ? <DCPoll/> : <CrPoll/>}
-        {/* <Poll question="Test Q" options={o} pollID={1} username = {username}/> */}
         {/* {polls.map(poll => (
           <Poll key={poll._id}
           question = {poll.question} 
