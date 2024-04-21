@@ -59,7 +59,6 @@ function App() {
     try {
       const response = await axios.post("http://localhost:3001/signupRequest",data);
       if(response.data.success){
-        
         setLoggedIn(true);
         setUsername(response.data.username);
         return "";
@@ -103,7 +102,7 @@ function App() {
   }
   return (<>
         <button onClick = {()=>{alert(JSON.stringify(polls))
-    alert(polls.options)}}>Alerts</button>
+    alert(polls[1].question)}}>Alerts</button>
         {loggedIn ? <LoggedIn/> : <Credentials/>}
         {cPoll ? <DCPoll/> : <CrPoll/>}
         {/* {polls.map(poll => (
