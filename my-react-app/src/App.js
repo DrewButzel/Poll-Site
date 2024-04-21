@@ -103,13 +103,13 @@ function App() {
     alert(polls[0].question)}}>Alerts</button>
         {loggedIn ? <LoggedIn/> : <Credentials/>}
         {cPoll ? <DCPoll/> : <CrPoll/>}
-        {/* <Poll 
+        <Poll 
           question = {"polls[0].question"} 
           options = {polls[0].options}
           pollID={polls[0]._id} 
           username={username}
           votedList={polls[0].votedList} 
-          /> */}
+          />
         {/* {polls.map(poll => (
           <Poll key={"poll._id"}
           question = {"poll.question"} 
