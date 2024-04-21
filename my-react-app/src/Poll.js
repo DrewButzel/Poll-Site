@@ -41,4 +41,4 @@ function Poll({question,options,pollID,username,votedList}){
     </form>
     </>)
 }
-export default Poll();
+export default Poll;

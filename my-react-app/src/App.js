@@ -100,18 +100,25 @@ function App() {
   }
   return (<>
         <button onClick = {()=>{alert(JSON.stringify(polls))
-    alert(JSON.stringify(polls[0].options))}}>Alerts</button>
+    alert(polls[0].question)}}>Alerts</button>
         {loggedIn ? <LoggedIn/> : <Credentials/>}
         {cPoll ? <DCPoll/> : <CrPoll/>}
-        {polls.map(poll => (
-          <Poll key={poll._id}
-          question = {poll.question} 
+        <Poll 
+          question = {"polls[0].question"} 
+          options = {polls[0].options}
+          pollID={polls[0]._id} 
+          username={username}
+          votedList={polls[0].votedList} 
+          />
+        {/* {polls.map(poll => (
+          <Poll key={"poll._id"}
+          question = {"poll.question"} 
           options = {poll.options}
           pollID={poll._id} 
           username={username}
           votedList={poll.votedList} 
           />
-        ))}
+        ))} */}
       </>
   );
 }
