@@ -4,16 +4,18 @@ import axios from 'axios';
 function Poll({question,options,pollID,username,votedList}){
   const [selectedVal,setSelectedVal]= useState();
   const [displayResults,setDisplayResults]= useState(false);
+  const [answers,setAnswers] = useState([]);
   useEffect(()=>{
     if(votedList.username) {
       displayResults(true);
     }
+    const ans = Object.keys[options].map(option => {
+      return(<>
+      <input type="radio" id={pollID+"_"+option} onChange={handleSelect} value={option}/><label for={pollID+"_"+option} value={option}/><br/>
+      </>);
+    })
+    setAnswers(ans);
   },[])
-  const answers = Object.keys[options].map(option => {
-    return(<>
-    <input type="radio" id={pollID+"_"+option} onChange={handleSelect} value={option}/><label for={pollID+"_"+option} value={option}/><br/>
-    </>);
-  })
   const handleSelect= (e)=>{
     setSelectedVal(e.target.value);
   }

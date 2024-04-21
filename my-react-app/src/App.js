@@ -5,7 +5,7 @@ import Login from './Login';
 import SignUp from './SignUp';
 import CPoll from './CPoll';
 import './App.css'
-// import Poll from './Poll';
+import Poll from './Poll';
 
 function App() {
   const [displayLogin,setDisplayLogin] = useState(true);
@@ -103,7 +103,7 @@ function App() {
     alert(JSON.stringify(polls[0].options))}}>Alerts</button>
         {loggedIn ? <LoggedIn/> : <Credentials/>}
         {cPoll ? <DCPoll/> : <CrPoll/>}
-        {/* {polls.map(poll => (
+        {polls.map(poll => (
           <Poll key={poll._id}
           question = {poll.question} 
           options = {poll.options}
@@ -111,7 +111,7 @@ function App() {
           username={username}
           votedList={poll.votedList} 
           />
-        ))} */}
+        ))}
       </>
   );
 }
