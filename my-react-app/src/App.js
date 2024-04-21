@@ -12,20 +12,35 @@ function App() {
   const [loggedIn,setLoggedIn]=useState(false);
   const [cPoll,setCPoll]=useState(false);
   const [username,setUsername]=useState("");
-  const [polls,setPolls]=useState([]);
+  const [polls,setPolls] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const getPolls = async () => {
       try {
         const response = await axios.get("http://localhost:3001/displayPollsRequest");
         if (response.data.success) {
-          setPolls(response.data.polls);
+          setPolls(response.data.polls.map((poll) => (
+            <Poll
+              key={poll._id}
+              question={poll.question}
+              options={poll.options}
+              pollID={poll._id}
+              username={username}
+              votedList={poll.votedList}
+            />
+          )));
         }
       } catch (error) {
         console.error('Login Error: ', error);
+      } finally {
+        setIsLoading(false);
       }
     };
     getPolls();
-  }, []);
+    alert(username)
+    alert(loggedIn)
+  }, [username]);
   
   const addPoll = (newPoll) => {
     const updatedPolls = [...polls, { _id: newPoll._id, username: newPoll.username, question: newPoll.question, options: newPoll.options, votedList: newPoll.votedList }];
@@ -65,10 +80,8 @@ function App() {
       }
     } catch (error) {
       console.error('Login Error: ', error);
-    }
+    } 
   };
-  
-
   function Credentials(){
     return (
       <>
@@ -99,27 +112,17 @@ function App() {
     );
   }
   return (<>
-        <button onClick = {()=>{alert(JSON.stringify(polls))
-    alert(polls[0].question)}}>Alerts</button>
-        {loggedIn ? <LoggedIn/> : <Credentials/>}
-        {cPoll ? <DCPoll/> : <CrPoll/>}
-        <Poll 
-          question = {"polls[0].question"} 
-          options = {polls[0].options}
-          pollID={polls[0]._id} 
-          username={username}
-          votedList={polls[0].votedList} 
-          />
-        {/* {polls.map(poll => (
-          <Poll key={"poll._id"}
-          question = {"poll.question"} 
-          options = {poll.options}
-          pollID={poll._id} 
-          username={username}
-          votedList={poll.votedList} 
-          />
-        ))} */}
+    {loggedIn ? <LoggedIn /> : <Credentials />}
+    {cPoll ? <DCPoll /> : <CrPoll />}
+    {loggedIn ? (isLoading ? (
+      <p>Loading polls...</p>
+    ) : (
+      <>
+        {polls.length > 0 ? polls : <p>No polls available</p>}
       </>
+    )) : <></>}
+    
+  </>
   );
 }
 

@@ -97,7 +97,7 @@ app.post("/cpoll", async (req,res)=>{
 
 });
 app.post("/voteRequest",async(req,res)=>{
-  console.log(req.body.username+"is trying to vote \""+req.body.selection+"\" on poll: "+req.body.username.pollID);
+  console.log(req.body.username+" is trying to vote \""+req.body.selection+"\" on poll: "+req.body.username.pollID);
   const query={_id:req.body.pollID};
   const set = {};
   const inc = {};
