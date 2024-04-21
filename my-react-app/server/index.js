@@ -118,7 +118,6 @@ app.get("/votedCheck",async(req,res)=>{
   res.json({found:found});
 });
 app.get("/displayPollsRequest", async(req,res)=>{
-  console.log("display");
   try{
     const cursor = await polls.find();
     const foundPolls = [];
@@ -126,7 +125,6 @@ app.get("/displayPollsRequest", async(req,res)=>{
     while(await cursor.hasNext()){
       foundPolls.push(await cursor.next());
     }
-    console.log("poop");
     res.json({success:true,polls:foundPolls});
   }catch{
     res.json({success:false});

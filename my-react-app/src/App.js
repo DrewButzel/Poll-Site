@@ -18,7 +18,6 @@ function App() {
       try {
         const response = await axios.get("http://localhost:3001/displayPollsRequest");
         if (response.data.success) {
-          alert(response.data.polls[1].question);
           setPolls(response.data.polls);
         }
       } catch (error) {
@@ -26,7 +25,6 @@ function App() {
       }
     };
     getPolls();
-    
   }, []);
   
   const addPoll = (newPoll) => {
@@ -102,7 +100,7 @@ function App() {
   }
   return (<>
         <button onClick = {()=>{alert(JSON.stringify(polls))
-    alert(polls[1].question)}}>Alerts</button>
+    alert(JSON.stringify(polls[0].options))}}>Alerts</button>
         {loggedIn ? <LoggedIn/> : <Credentials/>}
         {cPoll ? <DCPoll/> : <CrPoll/>}
         {/* {polls.map(poll => (
