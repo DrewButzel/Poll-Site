@@ -28,7 +28,7 @@ function App() {
   }, []);
   
   const addPoll = (newPoll) => {
-    const updatedPolls = [...polls, { _id: newPoll._id,username: newPoll.username, question: newPoll.question, options: newPoll.options }];
+    const updatedPolls = [...polls, { _id: newPoll._id, username: newPoll.username, question: newPoll.question, options: newPoll.options, votedList: newPoll.votedList }];
     setPolls(updatedPolls);
   };
   const loginRequest = async (username,password) => {
@@ -108,7 +108,8 @@ function App() {
           question = {poll.question} 
           options = {poll.options}
           pollID={poll._id} 
-          username={username.poll} 
+          username={username}
+          votedList={poll.votedList} 
           />
         ))} */}
       </>

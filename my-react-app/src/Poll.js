@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function Poll({question,options,pollID,username}){
+function Poll({question,options,pollID,username,votedList}){
   const [selectedVal,setSelectedVal]= useState();
   const [displayResults,setDisplayResults]= useState(false);
   useEffect(()=>{
-    votedCheck();
-  },[])
-  const votedCheck = async ()=>{
-    const data = {pollID:pollID,username:username}
-    try{
-      const response = await axios.get("http://localhost:3001/votedCheck", data);
-      setDisplayResults(response.data.found);
-    }catch (error){
-      console.error('Voting Error: ', error);
+    if(votedList.username) {
+      displayResults(true);
     }
-  }
+  },[])
   const answers = Object.keys[options].map(option => {
     return(<>
     <input type="radio" id={pollID+"_"+option} onChange={handleSelect} value={option}/><label for={pollID+"_"+option} value={option}/><br/>
