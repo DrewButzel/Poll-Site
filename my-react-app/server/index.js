@@ -151,7 +151,7 @@ app.post("/editPollRequest",async(req,res)=>{
   const id = new ObjectId(req.body.pollId);
   const query = {_id:id};
   const set = {};
-  set[`option.${req.body.option}`]=0;
+  set[`options.${req.body.option}`]=0;
   const result=await polls.updateOne(query,{$set:set});
   res.json({success:result.acknowledged});
 

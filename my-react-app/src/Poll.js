@@ -7,6 +7,7 @@ function Poll({username,user,votedList,question,options,pollID,removePoll}){
   const [answers,setAnswers] = useState([]);
   const [errorMsg,setErrorMsg] = useState("");
   const [owner,setOwner] = useState(false);
+  const [newOp,setNewOp] = useState("");
   useEffect(()=>{
     if(votedList[username]!=null) {
       setDisplayResults(true);
@@ -59,9 +60,30 @@ function Poll({username,user,votedList,question,options,pollID,removePoll}){
       console.error('Delete Error: ', error);
     }
   }
+  const addOption = async (e)=>{
+    e.preventDefault();
+    Object.keys(options).forEach((option)=> {
+      if(option===newOp) {
+        setErrorMsg("Duplicate Option");
+        return;
+      }
+    })
+    try {
+      const response = await axios.post("http://localhost:3001/editPollRequest",{option: newOp, pollId: pollID});
+      if(response.data.success){
+        options[newOp] = 0;
+        setNewOp("");
+      }
+      else {
+        setErrorMsg("Failed to Update");
+      }
+    } catch (error) {
+      console.error('Edit Error: ', error);
+    }
+  }
   function EditButton(){
     return(<>
-      <button>Add Option</button><button onClick={handleDelete}>Delete Poll</button>
+      {Object.keys(options).length<5 ? <><form onSubmit={addOption}><input type='text' value={newOp} onChange={(e)=>{setNewOp(e.target.value)}} placeholder='New Option'/><button type='submit'>Add Option</button></form></> : <p>You already have 5 options</p>}<button onClick={handleDelete}>Delete Poll</button>
     </>)
   }
   function Results(){
