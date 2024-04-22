@@ -6,6 +6,7 @@ function Poll({username,user,votedList,question,options,pollID}){
   const [displayResults,setDisplayResults]= useState(false);
   const [answers,setAnswers] = useState([]);
   const [errorMsg,setErrorMsg] = useState("");
+  const [owner,setOwner] = useState(false);
   useEffect(()=>{
     if(votedList[username]!=null) {
       setDisplayResults(true);
@@ -16,6 +17,7 @@ function Poll({username,user,votedList,question,options,pollID}){
       </>);
     })
     setAnswers(ans);
+    setOwner(username===user);
   },[username])
   const handleSelect= (e)=>{
     setSelectedVal(e.target.value);
@@ -43,6 +45,14 @@ function Poll({username,user,votedList,question,options,pollID}){
       console.error('Voting Error: ', error);
     }
   }
+  const handleDelete= async ()=>{
+    
+  }
+  function EditButton(){
+    return(<>
+      <button>Add Option</button><button>Delete Poll</button>
+    </>)
+  }
   function Results(){
     let total=0;
     Object.values(options).forEach((count)=>{
@@ -60,6 +70,7 @@ function Poll({username,user,votedList,question,options,pollID}){
       {answers}
       <button type="submit" id={pollID+"_btn"}>Vote</button>
     </form>}
+    {owner&&<EditButton/>}
     <p>{errorMsg}</p>
     </>)
 }

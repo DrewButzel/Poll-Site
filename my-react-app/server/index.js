@@ -131,4 +131,7 @@ app.get("/displayPollsRequest", async(req,res)=>{
     res.json({success:false});
   }
 });
+app.delete("/deletePoll",async(req,res)=>{
+  
+})
 run().catch(console.dir);
