@@ -47,7 +47,7 @@ async function addPoll(username,question,options){
   const result= await polls.insertOne({"username":username,"question":question,"options":options,"votedList":{}});
   if(result.acknowledged){
     console.log("Poll created by "+username+" with question "+question);
-    const poll = {username:username,question:question,options:options,_id:result.insertedId};
+    const poll = {question:question,options:options,_id:result.insertedId,votedList:{}};
     return {success:true,poll:poll};
   }
   console.log("Poll NOT created by "+username+" with question "+question);
@@ -131,14 +131,4 @@ app.get("/displayPollsRequest", async(req,res)=>{
     res.json({success:false});
   }
 });
-// app.get("/votedCheck",async(req,res)=>{
-//   console.log("checking if"+req.body.username+"has voted on poll "+req.body.pollID);
-//   const query={};
-//   query["_id"]=req.body.pollID;
-//   query["votedList."+req.body.username]=true;
-//   const result=await polls.findOne(query,{_id:1});
-//   console.log("result: "+result);
-//   const found = result!==null;
-//   res.json({found:found});
-// });
 run().catch(console.dir);

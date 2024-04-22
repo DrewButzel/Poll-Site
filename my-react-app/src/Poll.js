@@ -31,7 +31,6 @@ function Poll({username,votedList,question,options,pollID}){
   }
   const voteRequest = async (id,vote)=>{
     const data = {pollID:id,vote:vote,username:username}
-    alert(JSON.stringify(data));
     try{
       const response = await axios.post("http://localhost:3001/voteRequest",data);
       setDisplayResults(response.data.votedOn);
