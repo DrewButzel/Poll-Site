@@ -7,21 +7,16 @@ function Poll({username,votedList,question,options,pollID}){
   const [answers,setAnswers] = useState([]);
   const [errorMsg,setErrorMsg] = useState("");
   useEffect(()=>{
-    console.log("user: "+username);
     if(votedList[username]!=null) {
       setDisplayResults(true);
     }
-    // alert(question+": "+JSON.stringify(votedList));
-    // alert(votedList[username]);
-    // alert(votedList[username]!=null);
-    // alert(username);
     const ans = Object.keys(options).map(option => {
       return(<>
       <input type="radio" name='opt' id={`${pollID}_${option}`} onChange={handleSelect} value={option}/><label htmlFor={`${pollID}_${option}`}>{option}</label><br/>
       </>);
     })
     setAnswers(ans);
-  },[])
+  },[username])
   const handleSelect= (e)=>{
     setSelectedVal(e.target.value);
   }
