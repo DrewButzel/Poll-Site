@@ -143,7 +143,6 @@ app.delete("/deletePollRequest",async(req,res)=>{
       res.json({success:false,errorMsg:"Poll failed to delete"});
     }
   }catch{
-    console.error("Deletion Error")
     res.json({success:false,errorMsg:"Poll failed to delete"});
   }
 })
