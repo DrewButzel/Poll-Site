@@ -43,9 +43,20 @@ function Poll({username,votedList,question,options,pollID}){
       console.error('Voting Error: ', error);
     }
   }
+  function Results(){
+    let total=0;
+    Object.values(options).forEach((count)=>{
+      total+=count;
+    })
+    return(<>
+      {Object.entries(options).map(([option,voteCount])=>{
+        return(<div style={{width:`${voteCount/total*500}px`,height:"20px",backgroundColor:'lightcoral'}} key={option} id={`${option}_${pollID}r`}><p>{option}</p></div>)
+      })}
+    </>)
+  }
   return(<>
     <h2>{question}</h2>
-    {displayResults?<></>:<form id= {pollID+"_form"} onSubmit={handleSubmit}>
+    {displayResults?<Results/>:<form id= {pollID+"_form"} onSubmit={handleSubmit}>
       {answers}
       <button type="submit" id={pollID+"_btn"}>Vote</button>
     </form>}
