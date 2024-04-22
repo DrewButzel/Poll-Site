@@ -47,7 +47,7 @@ function Poll({username,user,votedList,question,options,pollID,removePoll}){
   }
   const handleDelete= async ()=>{
     try {
-      const response = await axios.delete("http://localhost:3001/deletePollRequest",{pollId: pollID});
+      const response = await axios.post("http://localhost:3001/deletePollRequest",{pollId: pollID});
       if(response.data.success){
         const remPollId = await response.data._id;
         removePoll(remPollId);
