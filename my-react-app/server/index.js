@@ -131,7 +131,7 @@ app.get("/displayPollsRequest", async(req,res)=>{
     res.json({success:false});
   }
 });
-app.delete("/deletePollRequest",async(req,res)=>{
+app.post("/deletePollRequest",async(req,res)=>{
   console.log(`trying to delete poll: ${req.body.pollId}`);
   const id= new ObjectId(req.body.pollId);
   const query = {_id:id};
