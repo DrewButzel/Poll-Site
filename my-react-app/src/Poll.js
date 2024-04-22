@@ -36,7 +36,9 @@ function Poll({username,votedList,question,options,pollID}){
       setDisplayResults(response.data.votedOn);
       if(!response.data.votedOn) {
         setErrorMsg("Not voted :(");
+        return;
       }
+      options[vote]=options[vote]+1;
     }catch (error){
       console.error('Voting Error: ', error);
     }
