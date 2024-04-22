@@ -24,6 +24,7 @@ function App() {
             <Poll
               key={poll._id}
               username={username}
+              user={newPoll.username}
               votedList={poll.votedList}
               question={poll.question}
               options={poll.options}
@@ -43,6 +44,7 @@ function App() {
   const addPoll = (newPoll) => {
     let insertPoll =<Poll
       username={username}
+      user={newPoll.username}
       votedList={newPoll.votedList}
       question={newPoll.question}
       options={newPoll.options}

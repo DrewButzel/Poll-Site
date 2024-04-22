@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function Poll({username,votedList,question,options,pollID}){
+function Poll({username,user,votedList,question,options,pollID}){
   const [selectedVal,setSelectedVal]= useState("");
   const [displayResults,setDisplayResults]= useState(false);
   const [answers,setAnswers] = useState([]);
