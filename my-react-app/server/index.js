@@ -145,5 +145,15 @@ app.post("/deletePollRequest",async(req,res)=>{
   }catch{
     res.json({success:false,errorMsg:"Poll failed to delete"});
   }
+});
+app.post("/editPollRequest",async(req,res)=>{
+  console.log(`trying to add option \"${req.body.option}\" to poll: ${req.body.pollId}`);
+  const id = new ObjectId(req.body.pollId);
+  const query = {_id:id};
+  const set = {};
+  set[`option.${req.body.option}`]=0;
+  const result=await polls.updateOne(query,{$set:set});
+  res.json({success:result.acknowledged});
+
 })
 run().catch(console.dir);
