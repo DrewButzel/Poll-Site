@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function Poll({username,user,votedList,question,options,pollID}){
+function Poll({username,user,votedList,question,options,pollID,removePoll}){
   const [selectedVal,setSelectedVal]= useState("");
   const [displayResults,setDisplayResults]= useState(false);
   const [answers,setAnswers] = useState([]);
@@ -46,11 +46,22 @@ function Poll({username,user,votedList,question,options,pollID}){
     }
   }
   const handleDelete= async ()=>{
-    
+    try {
+      const response = await axios.delete("http://localhost:3001/deletePollRequest",{pollId: pollID});
+      if(response.data.success){
+        const remPollId = await response.data._id;
+        removePoll(remPollId);
+      }
+      else {
+        setErrorMsg(response.data.errorMsg);
+      }
+    } catch (error) {
+      console.error('Delete Error: ', error);
+    }
   }
   function EditButton(){
     return(<>
-      <button>Add Option</button><button>Delete Poll</button>
+      <button>Add Option</button><button onClick={handleDelete}>Delete Poll</button>
     </>)
   }
   function Results(){

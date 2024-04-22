@@ -29,6 +29,7 @@ function App() {
               question={poll.question}
               options={poll.options}
               pollID={poll._id}
+              removePoll = {removePoll}
             />
           )));
         }
@@ -48,9 +49,13 @@ function App() {
       votedList={newPoll.votedList}
       question={newPoll.question}
       options={newPoll.options}
-      pollID={newPoll._id}/>
+      pollID={newPoll._id}
+      removePoll = {removePoll}/>
     const updatedPolls = [...polls, insertPoll];
     setPolls(updatedPolls);
+  };
+  const removePoll = (idToRemove) => {
+    setPolls(polls.filter(poll => poll.props.pollID !== idToRemove));
   };
   const loginRequest = async (username,password) => {
     if(!username || !password){
