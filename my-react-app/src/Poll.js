@@ -62,6 +62,7 @@ function Poll({username,user,votedList,question,options,pollID,removePoll}){
   }
   const addOption = async (e)=>{
     e.preventDefault();
+    if(newOp===""){setErrorMsg("Can't have blank option");return;}
     Object.keys(options).forEach((option)=> {
       if(option===newOp) {
         setErrorMsg("Duplicate Option");
@@ -73,6 +74,13 @@ function Poll({username,user,votedList,question,options,pollID,removePoll}){
       if(response.data.success){
         options[newOp] = 0;
         setNewOp("");
+        setErrorMsg("");
+        const ans = Object.keys(options).map(option => {
+          return(<>
+          <input type="radio" name='opt' id={`${pollID}_${option}`} onChange={handleSelect} value={option}/><label htmlFor={`${pollID}_${option}`}>{option}</label><br/>
+          </>);
+        })
+        setAnswers(ans);
       }
       else {
         setErrorMsg("Failed to Update");
