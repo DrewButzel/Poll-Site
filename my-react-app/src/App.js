@@ -41,7 +41,6 @@ function App() {
   }, [username]);
   
   const addPoll = (newPoll) => {
-    alert(JSON.stringify(newPoll));
     let insertPoll =<Poll
       username={username}
       votedList={newPoll.votedList}
