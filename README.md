@@ -28,4 +28,4 @@ Creative (10 points)
 -dupe checking for poll options  
 -valid email checker  
 -check for dupe user signup  
--
+-check 5 for adding
