@@ -117,11 +117,11 @@ function App() {
   }
   return (<>
     {loggedIn ? <LoggedIn /> : <Credentials />}
-    {cPoll ? <DCPoll /> : <CrPoll />}
     {loggedIn ? (isLoading ? (
       <p>Loading polls...</p>
     ) : (
       <>
+        {cPoll ? <DCPoll /> : <CrPoll />}
         {polls.length > 0 ? polls : <p>No polls available</p>}
       </>
     )) : <></>}
