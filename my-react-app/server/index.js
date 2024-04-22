@@ -131,7 +131,20 @@ app.get("/displayPollsRequest", async(req,res)=>{
     res.json({success:false});
   }
 });
-app.delete("/deletePoll",async(req,res)=>{
-  
+app.delete("/deletePollRequest",async(req,res)=>{
+  console.log(`trying to delete poll: ${req.body.pollID}`);
+  const id= new ObjectId(req.body.pollID);
+  const query = {_id:id};
+  try{
+    const result = await polls.deleteOne(query);
+    if(result.acknowledged){
+      res.json({success:true,_id:req.body.pollID});
+    }else{
+      res.json({success:false,errorMsg:"Poll failed to delete"});
+    }
+  }catch{
+    console.error("Deletion Error")
+    res.json({success:false,errorMsg:"Poll failed to delete"});
+  }
 })
 run().catch(console.dir);
