@@ -47,7 +47,7 @@ async function addPoll(username,question,options){
   const result= await polls.insertOne({"username":username,"question":question,"options":options,"votedList":{}});
   if(result.acknowledged){
     console.log("Poll created by "+username+" with question "+question);
-    const poll = {question:question,options:options,_id:result.insertedId,votedList:{}};
+    const poll = {question:question,options:options,_id:result.insertedId,votedList:{},user:username};
     return {success:true,poll:poll};
   }
   console.log("Poll NOT created by "+username+" with question "+question);
