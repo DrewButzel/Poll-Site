@@ -102,7 +102,7 @@ function Poll({username,user,votedList,question,options,pollID,removePoll,theme}
     })
     return(<>
       {Object.entries(options).map(([option,voteCount])=>{
-        return(<div style={{width:`${voteCount/total*500}px`,height:"20px",backgroundColor:'lightcoral'}} key={option} id={`${option}_${pollID}r`}><p>{option}</p></div>)
+        return(<div className="poll_res" style={{width:`${voteCount/total*500}px`}} key={option} id={`${option}_${pollID}r`}><p>{option}</p></div>)
       })}
     </>)
   }
