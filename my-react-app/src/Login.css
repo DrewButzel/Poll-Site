@@ -1,3 +1,11 @@
 #login {
     display: flex;
+    background-color: rgb(34, 47, 81);
+    color:aliceblue;
+    padding: 5%;
+    border-style: solid;
+    border-color: aliceblue;
+    border-radius: 1vw;
+    width: fit-content;
+    margin: 3%;
 }

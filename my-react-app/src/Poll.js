@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './Poll.css';
 
 function Poll({username,user,votedList,question,options,pollID,removePoll}){
   const [selectedVal,setSelectedVal]= useState("");
@@ -90,9 +91,9 @@ function Poll({username,user,votedList,question,options,pollID,removePoll}){
     }
   }
   function EditButton(){
-    return(<>
+    return(<div className='edit'>
       {Object.keys(options).length<5 ? <><form onSubmit={addOption}><input type='text' value={newOp} onChange={(e)=>{setNewOp(e.target.value)}} placeholder='New Option'/><button type='submit'>Add Option</button></form></> : <p>You already have 5 options</p>}<button onClick={handleDelete}>Delete Poll</button>
-    </>)
+    </div>)
   }
   function Results(){
     let total=0;
@@ -105,14 +106,14 @@ function Poll({username,user,votedList,question,options,pollID,removePoll}){
       })}
     </>)
   }
-  return(<>
-    <h2>{question}</h2>
-    {displayResults?<Results/>:<form id= {pollID+"_form"} onSubmit={handleSubmit}>
+  return(<div className='poll'>
+    <h2 className='question'>{question}</h2>
+    {displayResults?<Results/>:<form id= {pollID+"_form"} className='poll_form' onSubmit={handleSubmit}>
       {answers}
-      <button type="submit" id={pollID+"_btn"}>Vote</button>
+      <button type="submit" className='vote' id={pollID+"_btn"}>Vote</button>
     </form>}
     {owner&&<EditButton/>}
-    <p>{errorMsg}</p>
-    </>)
+    <p className='err_poll'>{errorMsg}</p>
+    </div>)
 }
 export default Poll;

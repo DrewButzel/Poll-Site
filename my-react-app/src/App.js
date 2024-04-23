@@ -122,7 +122,7 @@ function App() {
       </>
     );
   }
-  return (<>
+  return (<body>
     {loggedIn ? <LoggedIn /> : <Credentials />}
     {loggedIn ? (isLoading ? (
       <p>Loading polls...</p>
@@ -132,8 +132,7 @@ function App() {
         {polls.length > 0 ? polls : <p>No polls available</p>}
       </>
     )) : <></>}
-    
-  </>
+  </body>
   );
 }
 
