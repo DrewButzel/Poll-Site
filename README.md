@@ -29,3 +29,4 @@ Creative (10 points)
 -valid email checker  
 -check for dupe user signup  
 -check 5 for adding
+-no blank new option
