@@ -25,7 +25,7 @@ const SignUp=({signupRequest})=> {
         <input type='password' value={password} onChange={(e)=>{setPassword(e.target.value)}} id='password' placeholder='Password'/>
         <button type="submit" id='signUp_btn'>Sign Up</button>
       </form>
-      <p id="error">{errorMsg}</p>
+      <p className="error">{errorMsg}</p>
     </>
   );
 }

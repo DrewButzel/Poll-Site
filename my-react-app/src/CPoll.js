@@ -59,9 +59,9 @@ function CPoll({username,addPoll}) {
     setOptions(updatedOptions);
   };
 
-  return (<>
+  return (<div id="create_poll">
       <h2>Input the question you want to ask</h2>
-      <form id="create_poll" onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <input type="text" value={question} onChange={(e)=>{setQuestion(e.target.value)}} id="question" placeholder='Question'/>
         <h3>What options do you want?</h3>
         <input type='text' value={options[0]} onChange={(e)=>updateOption(0,e.target.value)} placeholder='Option 1'/>
@@ -80,9 +80,8 @@ function CPoll({username,addPoll}) {
         </select>
         <button type="submit" id='create_btn'>Create Poll</button>
       </form>
-      <p id="error">{errorMsg}</p>
-    </>
+      <p className="error">{errorMsg}</p>
+    </div>
   );
 }
-
 export default CPoll;

@@ -102,7 +102,7 @@ function Poll({username,user,votedList,question,options,pollID,removePoll,theme}
     })
     return(<>
       {Object.entries(options).map(([option,voteCount])=>{
-        return(<div className="poll_res" style={{width:`${voteCount/total*500}px`}} key={option} id={`${option}_${pollID}r`}><p>{option}</p></div>)
+        return(<div className="poll_res" style={{width:`${voteCount/total*18}vw`}} key={option} id={`${option}_${pollID}r`}><p>{option}</p></div>)
       })}
     </>)
   }
@@ -113,7 +113,7 @@ function Poll({username,user,votedList,question,options,pollID,removePoll,theme}
       <button type="submit" className='vote' id={pollID+"_btn"}>Vote</button>
     </form>}
     {owner&&<EditButton/>}
-    <p className='err_poll'>{errorMsg}</p>
+    <p className='error'>{errorMsg}</p>
     </div>)
 }
 export default Poll;

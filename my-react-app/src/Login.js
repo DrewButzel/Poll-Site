@@ -22,7 +22,7 @@ function Login({loginRequest}) {
         <input type='password' value={password} onChange={(e)=>{setPassword(e.target.value)}} id='password' placeholder='Password'/>
         <button type="submit" id='login_btn'>Login</button>
       </form>
-      <p id="error">{errorMsg}</p>
+      <p className="error">{errorMsg}</p>
     </>
   );
 }
