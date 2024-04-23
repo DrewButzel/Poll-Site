@@ -19,6 +19,11 @@
     height: 20px
 }
 
+.poll_res {
+    padding: 2%;
+    margin: 2%;
+}
+
 .night {
     display: flex;
     flex-direction: column;
@@ -26,7 +31,7 @@
     color:rgb(255, 255, 255);
     padding: 5%;
     border-style: solid;
-    border-color: rgb(255, 255, 255);
+    color:rgb(255, 255, 255);
     border-radius: 1vw;
     width: fit-content;
     margin: 3%;
@@ -44,10 +49,10 @@
     display: flex;
     flex-direction: column;
     background-color: rgb(69, 22, 69);
-    color:rgb(151, 52, 139);
+    color:rgb(255, 255, 255);
     padding: 5%;
     border-style: solid;
-    color:rgb(151, 52, 139);
+    border-color:rgb(255, 255, 255);
     border-radius: 1vw;
     width: fit-content;
     margin: 3%;
@@ -65,10 +70,10 @@
     display: flex;
     flex-direction: column;
     background-color: rgb(11, 60, 15);
-    color:rgb(73, 153, 160);
+    color:rgb(255, 255, 255);
     padding: 5%;
     border-style: solid;
-    color:rgb(73, 153, 160);
+    border-color:rgb(255, 255, 255);
     border-radius: 1vw;
     width: fit-content;
     margin: 3%;
@@ -86,10 +91,10 @@
     display: flex;
     flex-direction: column;
     background-color: rgb(93, 62, 27);
-    color:rgb(207, 202, 149);
+    color:rgb(255, 255, 255);
     padding: 5%;
     border-style: solid;
-    color:rgb(207, 202, 149);
+    border-color:rgb(255, 255, 255);
     border-radius: 1vw;
     width: fit-content;
     margin: 3%;
@@ -107,10 +112,10 @@
     display: flex;
     flex-direction: column;
     background-color: rgb(84, 28, 28);
-    color:rgb(214, 157, 146);
+    color:rgb(255, 255, 255);
     padding: 5%;
     border-style: solid;
-    color:rgb(214, 157, 146);
+    border-color:rgb(255, 255, 255);
     border-radius: 1vw;
     width: fit-content;
     margin: 3%;
