@@ -30,3 +30,4 @@ Creative (10 points)
 -check for dupe user signup  
 -check 5 for adding
 -no blank new option
+-varying bar length display
