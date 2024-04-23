@@ -1,4 +1,89 @@
-.poll {
+.classic {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(34, 47, 81);
+    color:aliceblue;
+    padding: 5%;
+    border-style: solid;
+    border-color: aliceblue;
+    border-radius: 1vw;
+    width: fit-content;
+    margin: 3%;
+    width: 20vw;
+    padding: 7%;
+    text-align: start;
+}
+
+.classic .poll_res {
+    background-color: rgb(83, 83, 149);
+    height: 20px
+}
+
+.night {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(48, 48, 48);
+    color:aliceblue;
+    padding: 5%;
+    border-style: solid;
+    border-color: aliceblue;
+    border-radius: 1vw;
+    width: fit-content;
+    margin: 3%;
+    width: 20vw;
+    padding: 7%;
+    text-align: start;
+}
+
+.pink {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(34, 47, 81);
+    color:aliceblue;
+    padding: 5%;
+    border-style: solid;
+    border-color: aliceblue;
+    border-radius: 1vw;
+    width: fit-content;
+    margin: 3%;
+    width: 20vw;
+    padding: 7%;
+    text-align: start;
+}
+
+.nature {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(34, 47, 81);
+    color:aliceblue;
+    padding: 5%;
+    border-style: solid;
+    border-color: aliceblue;
+    border-radius: 1vw;
+    width: fit-content;
+    margin: 3%;
+    width: 20vw;
+    padding: 7%;
+    text-align: start;
+}
+
+.beach {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(34, 47, 81);
+    color:aliceblue;
+    padding: 5%;
+    border-style: solid;
+    border-color: aliceblue;
+    border-radius: 1vw;
+    width: fit-content;
+    margin: 3%;
+    width: 20vw;
+    padding: 7%;
+    text-align: start;
+}
+
+.fall {
     display: flex;
     flex-direction: column;
     background-color: rgb(34, 47, 81);
