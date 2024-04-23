@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './Poll.css';
 
-function Poll({username,user,votedList,question,options,pollID,removePoll}){
+function Poll({username,user,votedList,question,options,pollID,removePoll,theme}){
   const [selectedVal,setSelectedVal]= useState("");
   const [displayResults,setDisplayResults]= useState(false);
   const [answers,setAnswers] = useState([]);
@@ -106,7 +106,7 @@ function Poll({username,user,votedList,question,options,pollID,removePoll}){
       })}
     </>)
   }
-  return(<div className='poll'>
+  return(<div className={theme}>
     <h2 className='question'>{question}</h2>
     {displayResults?<Results/>:<form id= {pollID+"_form"} className='poll_form' onSubmit={handleSubmit}>
       {answers}
