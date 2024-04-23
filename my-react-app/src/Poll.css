@@ -23,58 +23,73 @@
     display: flex;
     flex-direction: column;
     background-color: rgb(48, 48, 48);
-    color:aliceblue;
+    color:rgb(255, 255, 255);
     padding: 5%;
     border-style: solid;
-    border-color: aliceblue;
+    border-color: rgb(255, 255, 255);
     border-radius: 1vw;
     width: fit-content;
     margin: 3%;
     width: 20vw;
     padding: 7%;
     text-align: start;
+}
+
+.night .poll_res {
+    background-color: rgb(77, 77, 77);
+    height: 20px
 }
 
 .pink {
     display: flex;
     flex-direction: column;
-    background-color: rgb(34, 47, 81);
-    color:aliceblue;
+    background-color: rgb(69, 22, 69);
+    color:rgb(151, 52, 139);
     padding: 5%;
     border-style: solid;
-    border-color: aliceblue;
+    color:rgb(151, 52, 139);
     border-radius: 1vw;
     width: fit-content;
     margin: 3%;
     width: 20vw;
     padding: 7%;
     text-align: start;
+}
+
+.pink .poll_res {
+    background-color: rgb(134, 56, 111);
+    height: 20px
 }
 
 .nature {
     display: flex;
     flex-direction: column;
-    background-color: rgb(34, 47, 81);
-    color:aliceblue;
+    background-color: rgb(11, 60, 15);
+    color:rgb(73, 153, 160);
     padding: 5%;
     border-style: solid;
-    border-color: aliceblue;
+    color:rgb(73, 153, 160);
     border-radius: 1vw;
     width: fit-content;
     margin: 3%;
     width: 20vw;
     padding: 7%;
     text-align: start;
+}
+
+.nature .poll_res {
+    background-color: rgb(20, 96, 53);
+    height: 20px
 }
 
 .beach {
     display: flex;
     flex-direction: column;
-    background-color: rgb(34, 47, 81);
-    color:aliceblue;
+    background-color: rgb(93, 62, 27);
+    color:rgb(207, 202, 149);
     padding: 5%;
     border-style: solid;
-    border-color: aliceblue;
+    color:rgb(207, 202, 149);
     border-radius: 1vw;
     width: fit-content;
     margin: 3%;
@@ -83,20 +98,30 @@
     text-align: start;
 }
 
+.beach .poll_res {
+    background-color: rgb(140, 114, 44);
+    height: 20px
+}
+
 .fall {
     display: flex;
     flex-direction: column;
-    background-color: rgb(34, 47, 81);
-    color:aliceblue;
+    background-color: rgb(84, 28, 28);
+    color:rgb(214, 157, 146);
     padding: 5%;
     border-style: solid;
-    border-color: aliceblue;
+    color:rgb(214, 157, 146);
     border-radius: 1vw;
     width: fit-content;
     margin: 3%;
     width: 20vw;
     padding: 7%;
     text-align: start;
+}
+
+.fall .poll_res {
+    background-color: rgb(144, 49, 49);
+    height: 20px
 }
 
 .err_poll {
