@@ -52,3 +52,8 @@ button {
     transform: rotate(360deg);
   }
 }
+
+.error {
+  color: red;
+  text-align: center;
+}
