@@ -5,7 +5,11 @@ function CPoll({username,addPoll}) {
   const [question,setQuestion]=useState();
   const [options,setOptions]=useState(Array(5).fill(null));
   const [errorMsg,setErrorMsg]=useState();
+  const [theme,setTheme]=useState('classic');
 
+  const changeTheme= (e)=>{
+    setTheme(e.target.value);
+  }
   const handleSubmit=async (e)=>{
     e.preventDefault();
     if(username===""){
@@ -34,7 +38,8 @@ function CPoll({username,addPoll}) {
       setErrorMsg("Duplicate Options");
       return;
     }
-    const data ={question:question,options:nonNullOptions,username:username}
+    const data ={question:question,options:nonNullOptions,username:username,theme:theme}
+    setTheme('classic');
     try {
       const response = await axios.post("http://localhost:3001/cpoll",data);
       if(response.data.success){
@@ -64,6 +69,15 @@ function CPoll({username,addPoll}) {
         <input type='text' value={options[2]} onChange={(e)=>updateOption(2,e.target.value)} placeholder='Option 3 (optional)'/>
         <input type='text' value={options[3]} onChange={(e)=>updateOption(3,e.target.value)} placeholder='Option 4 (optional)'/>
         <input type='text' value={options[4]} onChange={(e)=>updateOption(4,e.target.value)} placeholder='Option 5 (optional)'/>
+        <h3>Pick a theme</h3>
+        <select value={theme} onChange={changeTheme}>
+          <option value='classic'>Classic</option>
+          <option value='night'>Night</option>
+          <option value='pink'>Pink</option>
+          <option value='nature'>Nature</option>
+          <option value='beach'>Beach</option>
+          <option value='fall'>Fall</option>
+        </select>
         <button type="submit" id='create_btn'>Create Poll</button>
       </form>
       <p id="error">{errorMsg}</p>

@@ -25,6 +25,7 @@ function App() {
               key={poll._id}
               username={username}
               user={poll.username}
+              theme={poll.theme}
               votedList={poll.votedList}
               question={poll.question}
               options={poll.options}
@@ -46,6 +47,7 @@ function App() {
     let insertPoll =<Poll
       username={username}
       user={newPoll.user}
+      theme={newPoll.theme}
       votedList={newPoll.votedList}
       question={newPoll.question}
       options={newPoll.options}
