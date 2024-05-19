@@ -92,7 +92,7 @@ function Poll({username,user,votedList,question,options,pollID,removePoll,theme}
   }
   function EditButton(){
     return(<div className='edit'>
-      {Object.keys(options).length<5 ? <><form onSubmit={addOption}><input type='text' value={newOp} onChange={(e)=>{setNewOp(e.target.value)}} placeholder='New Option'/><button type='submit'>Add Option</button></form></> : <p>You already have 5 options</p>}<button onClick={handleDelete}>Delete Poll</button>
+      <button onClick={handleDelete}>Delete Poll</button>
     </div>)
   }
   function Results(){
