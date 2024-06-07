@@ -23,7 +23,7 @@ async function run() {
 }
 const emailRegex= /^[\w!#$%&'*+\.\/=?^_`{|}~-]+@([\w\-]+(?:\.[\w\-]+)+)$/;
 const app = express();
-const PORT = 3001;
+const PORT = process.env.MONGO_URI || 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
