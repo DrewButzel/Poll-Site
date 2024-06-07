@@ -21,7 +21,7 @@ async function run() {
   users = database.collection('Users');
   polls = database.collection('Polls');
 }
-const emailRegex= /^[\w!#$%&'*+\/=?^_`{|}~-]+@([\w\-]+(?:\.[\w\-]+)+)$/;
+const emailRegex= /^[\w!#$%&'*+\.\/=?^_`{|}~-]+@([\w\-]+(?:\.[\w\-]+)+)$/;
 const app = express();
 const PORT = 3001;
 app.use(cors());
