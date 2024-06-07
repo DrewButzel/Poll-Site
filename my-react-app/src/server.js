@@ -96,7 +96,7 @@ app.post("/cpoll", async (req,res)=>{
 
 });
 app.post("/voteRequest",async(req,res)=>{
-  console.log("checking if"+req.body.username+"has voted on poll "+req.body.pollID);
+  console.log("checking if "+req.body.username+" has voted on poll "+req.body.pollID);
   let query={};
   query["_id"]=new ObjectId(req.body.pollID);
   query["votedList."+req.body.username]=true;
