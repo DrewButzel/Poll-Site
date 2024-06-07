@@ -35,7 +35,6 @@ async function checkDupe(username){
 async function getPassword(username){
   const query = { username: username };
   const user = await users.findOne(query);
-  console.log(user.password);
   if(user&&user.password){
     return user.password;
   }else{
